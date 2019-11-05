@@ -16,6 +16,10 @@ h3 {
   cursor: pointer;
 }
 
+#letter-1,
+#letter-2 {
+  font-size: 8rem;
+}
 .btn.active.focus,
 .btn.active:focus,
 .btn.focus,
@@ -27,6 +31,5 @@ h3 {
 }
 
 body {
-  font-family: 'Peddana', serif;
   font-family: 'Roboto', sans-serif;
 }
