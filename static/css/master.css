@@ -1,0 +1,32 @@
+h1 {
+  padding: 2rem;
+}
+
+h3 {
+  font-weight: normal;
+}
+
+.time {
+  font-size: 8rem;
+  font-style: normal;
+  font-weight: 100;
+}
+
+.hover {
+  cursor: pointer;
+}
+
+.btn.active.focus,
+.btn.active:focus,
+.btn.focus,
+.btn:active.focus,
+.btn:active:focus,
+.btn:focus {
+  outline: 0 !important;
+  box-shadow: none;
+}
+
+body {
+  font-family: 'Peddana', serif;
+  font-family: 'Roboto', sans-serif;
+}
