@@ -9,7 +9,13 @@ app.use(bodyParser.urlencoded({ extended: true }));
 // http://expressjs.com/en/starter/static-files.html
 app.use('/css', express.static('static/css'));
 app.use('/js', express.static('static/js'));
-
+app.use((req, res, next) => {
+  res.append('Access-Control-Allow-Origin', ['*']);
+  res.append('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
+  res.append('Access-Control-Allow-Headers', 'Content-Type');
+  res.append('charset', 'utf-8');
+  next();
+});
 
 // http://expressjs.com/en/starter/basic-routing.html
 app.get('/', (request, response) => {
