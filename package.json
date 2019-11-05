@@ -1,0 +1,36 @@
+{
+  "name": "telugu-exp",
+  "version": "1.0.0",
+  "description": "A website that has the experiments for the Telugu RDM construction",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/somanath08/Telugu-Exp.git"
+  },
+  "author": "Sai Somanath Komanduri",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/somanath08/Telugu-Exp/issues"
+  },
+  "homepage": "https://github.com/somanath08/Telugu-Exp#readme",
+  "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-core": "^6.26.3",
+    "babel-eslint": "^10.0.3",
+    "babel-loader": "^8.0.6",
+    "babel-preset-env": "^1.7.0",
+    "eslint": "^6.6.0",
+    "eslint-config-airbnb": "^18.0.1",
+    "eslint-plugin-import": "^2.18.2",
+    "eslint-plugin-jsx-a11y": "^6.2.3",
+    "eslint-plugin-react": "^7.16.0",
+    "eslint-plugin-react-hooks": "^1.7.0"
+  },
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "express": "^4.17.1"
+  }
+}
