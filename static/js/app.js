@@ -1,4 +1,5 @@
 
+// eslint-disable-next-line no-undef
 $(document)
   .ready(() => {
     const telugu = ['అ', 'న', 'వ', 'మ', 'య', 'ల', 'ర', 'ఒ', 'జ', 'ఠ', 'ఆ', 'ఉ',
