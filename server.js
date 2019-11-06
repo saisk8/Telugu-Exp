@@ -1,8 +1,8 @@
 // init project
 const express = require('express');
+const fs = require('fs');
 
 const app = express();
-
 
 // http://expressjs.com/en/starter/static-files.html
 app.use('/css', express.static('static/css'));
@@ -27,9 +27,14 @@ app.get('/thanks', (request, response) => {
 });
 
 app.post('/complete', (request, response) => {
+  fs.writeFile('test.txt', request.body.value, (err) => {
+    if (err) {
+      // eslint-disable-next-line no-console
+      console.log(err);
+    }
+  });
   response.redirect('http://localhost:3000/thanks');
 });
-
 
 // listen for requests :)
 app.listen(3000, () => {
