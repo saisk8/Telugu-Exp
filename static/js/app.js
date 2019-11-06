@@ -34,7 +34,7 @@ $(document)
 
     function updateScreenToNext() {
       expId += 1;
-      if (expId === diffs.length) expId = diffs.length - 1;
+      if (expId === diffs.length) completeExp();
       document.getElementById('score').innerHTML = diffs[expId];
       const i = Math.floor(expId / size);
       const j = expId % size;
@@ -55,6 +55,19 @@ $(document)
         btns[i].addEventListener('click', updateScore, false);
       }
     }
+
+    function completeExp() {
+      const xhr = new XMLHttpRequest();
+      xhr.open('POST', 'http://localhost:3000/complete', true);
+      xhr.setRequestHeader('Content-Type', 'application/json');
+      xhr.send(JSON.stringify({
+        value: diffs,
+      }));
+      xhr.onreadystatechange = () => {
+        console.log(xhr.responseText);
+      };
+    }
     addEventListner();
     updateScreenToNext();
+    completeExp();
   });
