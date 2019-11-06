@@ -1,14 +1,14 @@
 // init project
 const express = require('express');
-const bodyParser = require('body-parser');
 
 const app = express();
 
-app.use(bodyParser.urlencoded({ extended: true }));
 
 // http://expressjs.com/en/starter/static-files.html
 app.use('/css', express.static('static/css'));
 app.use('/js', express.static('static/js'));
+// Parse JSON bodies (as sent by API clients)
+app.use(express.json());
 app.use((req, res, next) => {
   res.append('Access-Control-Allow-Origin', ['*']);
   res.append('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
@@ -20,6 +20,14 @@ app.use((req, res, next) => {
 // http://expressjs.com/en/starter/basic-routing.html
 app.get('/', (request, response) => {
   response.sendFile(`${__dirname}/views/index.html`);
+});
+
+app.get('/thanks', (request, response) => {
+  response.send('Thank you!');
+});
+
+app.post('/complete', (request, response) => {
+  response.redirect('http://localhost:3000/thanks');
 });
 
 
