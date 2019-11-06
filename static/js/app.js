@@ -10,42 +10,45 @@ $(document)
     const size = (telugu.length * (telugu.length - 1)) / 2;
     const diffs = Array(size).fill(0);
 
+
+    function completeExp() {
+      const xhr = new XMLHttpRequest();
+      xhr.open('POST', 'http://localhost:3000/complete', true);
+      xhr.setRequestHeader('Content-Type', 'application/json');
+      xhr.send(JSON.stringify({
+        value: diffs,
+      }));
+    }
+
     function updateScore(e) {
       document.getElementById('score').innerHTML = e.target.innerHTML;
       diffs[expId] = +e.target.innerHTML;
-      console.log(diffs[expId], expId, diffs);
+    }
+
+    function updateScreen(callback) {
+      document.getElementById('score').innerHTML = diffs[expId];
+      const i = Math.floor(expId / size);
+      const j = expId % size;
+      if (i === j) {
+        callback();
+        return;
+      }
+      const letter1 = telugu[i];
+      const letter2 = telugu[j];
+      document.getElementById('letter-1').innerHTML = letter1;
+      document.getElementById('letter-2').innerHTML = letter2;
     }
 
     function updateScreenToPrev() {
       expId -= 1;
       if (expId === 0) expId = 1;
-      document.getElementById('score').innerHTML = diffs[expId];
-      const i = Math.floor(expId / size);
-      const j = expId % size;
-      if (i === j) {
-        updateScreenToPrev();
-        return;
-      }
-      const letter1 = telugu[i];
-      const letter2 = telugu[j];
-      document.getElementById('letter-1').innerHTML = letter1;
-      document.getElementById('letter-2').innerHTML = letter2;
+      updateScreen(updateScreenToPrev);
     }
 
     function updateScreenToNext() {
       expId += 1;
       if (expId === diffs.length) completeExp();
-      document.getElementById('score').innerHTML = diffs[expId];
-      const i = Math.floor(expId / size);
-      const j = expId % size;
-      if (i === j) {
-        updateScreenToNext();
-        return;
-      }
-      const letter1 = telugu[i];
-      const letter2 = telugu[j];
-      document.getElementById('letter-1').innerHTML = letter1;
-      document.getElementById('letter-2').innerHTML = letter2;
+      updateScreen(updateScreenToNext);
     }
 
     function addEventListner() {
@@ -55,19 +58,6 @@ $(document)
         btns[i].addEventListener('click', updateScore, false);
       }
     }
-
-    function completeExp() {
-      const xhr = new XMLHttpRequest();
-      xhr.open('POST', 'http://localhost:3000/complete', true);
-      xhr.setRequestHeader('Content-Type', 'application/json');
-      xhr.send(JSON.stringify({
-        value: diffs,
-      }));
-      xhr.onreadystatechange = () => {
-        console.log(xhr.responseText);
-      };
-    }
     addEventListner();
     updateScreenToNext();
-    completeExp();
   });
