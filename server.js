@@ -46,16 +46,12 @@ app.post('/complete', (request, response) => {
   response.redirect('http://localhost:3000/thanks');
 });
 
-app.get('/register', (request, response) => {
-  response.sendFile(`${__dirname}/views/register.html`);
-});
-
 app.get('/login', (request, response) => {
   response.sendFile(`${__dirname}/views/login.html`);
 });
 
 // Route to create a new user
-app.post('/register', (request, response) => {
+app.post('/login', (request, response) => {
   mongo.connect((err, client) => {
     assert.equal(null, err);
     console.log('Connected correctly to server');
@@ -67,35 +63,15 @@ app.post('/register', (request, response) => {
       assert.equal(null, err1);
       if (doc !== null) {
         client.close();
-        return response.json({ status: 'exists' });
+        return response.json({ status: 'exists', data: doc });
       }
-      db.collection('users').insertOne({ user, data: Array.size(276).fill(0) }, (err2, r) => {
+      const newDoc = { user, data: Array.size(276).fill(0) };
+      db.collection('users').insertOne(newDoc, (err2, r) => {
         assert.equal(null, err2);
         assert.equal(1, r.insertedCount);
         client.close();
       });
-      return response.json({ status: 'added' });
-    });
-  });
-});
-
-// Route for an logging-in an user
-app.post('/login', (request, response) => {
-  mongo.connect((err, client) => {
-    assert.equal(null, err);
-    console.log('Connected correctly to server');
-    const db = client.db(dbName);
-
-    const { user } = request.body;
-
-    db.collection('users').findOne({ user }, (err1, doc) => {
-      assert.equal(null, err1);
-      if (doc === null) {
-        client.close();
-        return response.json({ data: null });
-      }
-      client.close();
-      return response.json({ data: doc });
+      return response.json({ status: 'added', data: newDoc });
     });
   });
 });
