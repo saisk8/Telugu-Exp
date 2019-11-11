@@ -47,6 +47,7 @@ app.post('/complete', (request, response) => {
   response.redirect('http://localhost:3000/thanks');
 });
 
+// Route to create a new user
 app.post('/register', (request, response) => {
   mongo.connect((err, client) => {
     assert.equal(null, err);
@@ -71,6 +72,7 @@ app.post('/register', (request, response) => {
   });
 });
 
+// Route for an logging-in an user
 app.post('/login', (request, response) => {
   mongo.connect((err, client) => {
     assert.equal(null, err);
@@ -91,7 +93,26 @@ app.post('/login', (request, response) => {
   });
 });
 
-app.post('/save', (request, response) => {});
+app.post('/save', (request, response) => {
+  mongo.connect((err, client) => {
+    assert.equal(null, err);
+    console.log('Connected correctly to server');
+    const db = client.db(dbName);
+
+    const { user } = request.body;
+    const { data } = request.body;
+
+    db.collection('users').findOneAndUpdate({ user }, { $set: { data } }, (err1, doc) => {
+      assert.equal(null, err1);
+      if (doc !== null) {
+        client.close();
+        return response.json({ status: 'done' });
+      }
+      client.close();
+      return response.json({ status: 'nope' });
+    });
+  });
+});
 
 // listen for requests :)
 app.listen(3000, () => {
