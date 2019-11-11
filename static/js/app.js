@@ -65,28 +65,31 @@ $(document).ready(() => {
 
   function updateScreenToPrev() {
     expId -= 1;
+    if (expId === 0) expId = 1;
+    document.getElementById('expNo').innerHTML = `Exp ${expId} of 276`;
     if (diffs[expId] === 0) {
       document.getElementById('error').innerHTML = 'Please select a score';
-    } else {
-      document.getElementById('error').innerHTML = '';
+      return;
     }
-    if (expId === 0) expId = 1;
+    document.getElementById('error').innerHTML = '';
     updateScreen(updateScreenToPrev);
   }
 
   function updateScreenToNext() {
     if (diffs[expId] === 0) {
       document.getElementById('error').innerHTML = 'Please select a score';
-    } else {
-      document.getElementById('error').innerHTML = '';
+      return;
     }
+    document.getElementById('error').innerHTML = '';
     expId += 1;
+    document.getElementById('expNo').innerHTML = `Exp ${expId} of 276`;
     if (expId === diffs.length) completeExp();
     updateScreen(updateScreenToNext);
   }
 
   function startExp() {
     expId += 1;
+    document.getElementById('expNo').innerHTML = `Exp ${expId} of 276`;
     if (expId === diffs.length) completeExp();
     updateScreen(updateScreenToNext);
   }
