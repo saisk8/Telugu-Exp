@@ -33,3 +33,7 @@ h3 {
 body {
   font-family: 'Roboto', sans-serif;
 }
+
+.red {
+  color: red;
+}
