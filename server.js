@@ -1,9 +1,20 @@
+/* eslint-disable no-console */
 // init project
 const express = require('express');
+const assert = require('assert');
+const { MongoClient } = require('mongodb');
+// Connection url
+const url = 'mongodb://localhost:27017';
+// Database Name
+const dbName = 'telugu-test';
+
 const fs = require('fs');
 
 const app = express();
+// Create a new MongoClient
+const mongo = new MongoClient(url);
 
+// Use connect method to connect to the Server
 // http://expressjs.com/en/starter/static-files.html
 app.use('/css', express.static('static/css'));
 app.use('/js', express.static('static/js'));
@@ -35,6 +46,52 @@ app.post('/complete', (request, response) => {
   });
   response.redirect('http://localhost:3000/thanks');
 });
+
+app.post('/register', (request, response) => {
+  mongo.connect((err, client) => {
+    assert.equal(null, err);
+    console.log('Connected correctly to server');
+    const db = client.db(dbName);
+
+    const { user } = request.body;
+
+    db.collection('users').findOne({ user }, (err1, doc) => {
+      assert.equal(null, err1);
+      if (doc !== null) {
+        client.close();
+        return response.json({ status: 'exists' });
+      }
+      db.collection('users').insertOne({ user, data: Array.size(276).fill(0) }, (err2, r) => {
+        assert.equal(null, err2);
+        assert.equal(1, r.insertedCount);
+        client.close();
+      });
+      return response.json({ status: 'added' });
+    });
+  });
+});
+
+app.post('/login', (request, response) => {
+  mongo.connect((err, client) => {
+    assert.equal(null, err);
+    console.log('Connected correctly to server');
+    const db = client.db(dbName);
+
+    const { user } = request.body;
+
+    db.collection('users').findOne({ user }, (err1, doc) => {
+      assert.equal(null, err1);
+      if (doc === null) {
+        client.close();
+        return response.json({ data: null });
+      }
+      client.close();
+      return response.json({ data: doc });
+    });
+  });
+});
+
+app.post('/save', (request, response) => {});
 
 // listen for requests :)
 app.listen(3000, () => {
