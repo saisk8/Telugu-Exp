@@ -30,11 +30,19 @@ app.use((req, res, next) => {
 
 // http://expressjs.com/en/starter/basic-routing.html
 app.get('/', (request, response) => {
-  response.sendFile(`${__dirname}/views/index.html`);
+  response.redirect('http://localhost:3000/exp');
+});
+
+app.get('/exp', (request, response) => {
+  response.sendFile(`${__dirname}/views/experiment.html`);
 });
 
 app.get('/thanks', (request, response) => {
   response.send('Thank you!');
+});
+
+app.get('/login', (request, response) => {
+  response.sendFile(`${__dirname}/views/login.html`);
 });
 
 app.post('/complete', (request, response) => {
@@ -44,10 +52,6 @@ app.post('/complete', (request, response) => {
     }
   });
   response.redirect('http://localhost:3000/thanks');
-});
-
-app.get('/login', (request, response) => {
-  response.sendFile(`${__dirname}/views/login.html`);
 });
 
 // Route to create a new user
