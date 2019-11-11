@@ -38,13 +38,20 @@ app.get('/thanks', (request, response) => {
 });
 
 app.post('/complete', (request, response) => {
-  fs.writeFile('test.txt', request.body.value, (err) => {
+  fs.writeFile(`${request.body.user}.json`, request.body, (err) => {
     if (err) {
-      // eslint-disable-next-line no-console
       console.log(err);
     }
   });
   response.redirect('http://localhost:3000/thanks');
+});
+
+app.get('/register', (request, response) => {
+  response.sendFile(`${__dirname}/views/register.html`);
+});
+
+app.get('/login', (request, response) => {
+  response.sendFile(`${__dirname}/views/login.html`);
 });
 
 // Route to create a new user
@@ -93,6 +100,7 @@ app.post('/login', (request, response) => {
   });
 });
 
+// Route to save progress of the user
 app.post('/save', (request, response) => {
   mongo.connect((err, client) => {
     assert.equal(null, err);
@@ -116,6 +124,5 @@ app.post('/save', (request, response) => {
 
 // listen for requests :)
 app.listen(3000, () => {
-  // eslint-disable-next-line no-console
   console.log('listening on 3000');
 });
