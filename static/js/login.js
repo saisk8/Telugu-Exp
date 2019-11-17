@@ -1,15 +1,18 @@
 // eslint-disable-next-line no-undef
-$(document).ready(() => {
-  function login() {
-    const user = document.getElementById('username').nodeValue;
-    $.ajax({
-      type: 'POST',
-      url: 'http://localhost:3000/login',
-      data: user,
-      success: (data) => {
-        // eslint-disable-next-line no-console
-        console.log(data);
-      },
+function login() {
+  const user = document.getElementById('username').value;
+  axios
+    .post('/login', {
+      user,
+    })
+    .then((response) => {
+      console.log(response);
+    })
+    .catch((error) => {
+      console.log(error);
     });
-  }
-});
+}
+
+window.onload = () => {
+  document.getElementById('login').addEventListener('click', login, false);
+};
