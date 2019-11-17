@@ -18,6 +18,8 @@ const mongo = new MongoClient(url);
 // http://expressjs.com/en/starter/static-files.html
 app.use('/css', express.static('static/css'));
 app.use('/js', express.static('static/js'));
+app.use('/images', express.static('static/images'));
+
 // Parse JSON bodies (as sent by API clients)
 app.use(express.json());
 app.use((req, res, next) => {
