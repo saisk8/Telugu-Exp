@@ -1,4 +1,5 @@
-// eslint-disable-next-line no-undef
+/* eslint-disable no-console */
+/* eslint-disable no-undef */
 function login() {
   const user = document.getElementById('username').value;
   axios
