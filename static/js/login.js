@@ -8,6 +8,7 @@ function login() {
     })
     .then((response) => {
       if (response.data.status) {
+        window.localStorage.setItem('user', user);
         window.location.href = '/exp';
       } else {
         window.location.href = '/register';
