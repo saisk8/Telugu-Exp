@@ -3,11 +3,15 @@
 function login() {
   const user = document.getElementById('username').value;
   axios
-    .post('/login', {
+    .post('/login-val', {
       user,
     })
     .then((response) => {
-      console.log(response);
+      if (response.data.status) {
+        window.location.href = '/exp';
+      } else {
+        window.location.href = '/register';
+      }
     })
     .catch((error) => {
       console.log(error);

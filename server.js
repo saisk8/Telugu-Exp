@@ -12,7 +12,7 @@ const fs = require('fs');
 
 const app = express();
 // Create a new MongoClient
-const mongo = new MongoClient(url);
+const mongo = new MongoClient(url, { useUnifiedTopology: true });
 
 // Use connect method to connect to the Server
 // http://expressjs.com/en/starter/static-files.html
@@ -32,7 +32,7 @@ app.use((req, res, next) => {
 
 // http://expressjs.com/en/starter/basic-routing.html
 app.get('/', (request, response) => {
-  response.redirect('http://localhost:3000/exp');
+  response.redirect('http://localhost:3000/login');
 });
 
 app.get('/exp', (request, response) => {
@@ -57,7 +57,7 @@ app.post('/complete', (request, response) => {
 });
 
 // Route to create a new user
-app.post('/login', (request, response) => {
+app.post('/login-val', (request, response) => {
   mongo.connect((err, client) => {
     assert.equal(null, err);
     console.log('Connected correctly to server');
@@ -69,15 +69,15 @@ app.post('/login', (request, response) => {
       assert.equal(null, err1);
       if (doc !== null) {
         client.close();
-        return response.json({ status: 'exists', data: doc });
+        return response.json({ status: true });
       }
-      const newDoc = { user, data: Array.size(276).fill(0) };
+      const newDoc = { user, data: Array(276).fill(0) };
       db.collection('users').insertOne(newDoc, (err2, r) => {
         assert.equal(null, err2);
         assert.equal(1, r.insertedCount);
         client.close();
       });
-      return response.json({ status: 'added', data: newDoc });
+      return response.json({ status: false });
     });
   });
 });
