@@ -23,6 +23,7 @@ function startExperiment() {
     ['జ', 'ఠ', 'ఆ', 'ఉ', 'ఊ', 'ఎ', 'ఏ', 'ప'],
     ['ఫ', 'ద', 'డ', 'బ', 'త', 'క', 'హ', 'ణ'],
   ];
+  const fontClasses = ['font1', 'font2', 'font3', 'font4', 'font5'];
   const currentSet = telugu[expData.set].flatMap((shape1, index) => {
     telugu[expData.set].slice(index + 1).map((shape2) => [shape1, shape2]);
   });
@@ -67,8 +68,14 @@ function startExperiment() {
     document.getElementById('score').innerHTML = expData.data[expId];
     const shape1 = currentSet[expId][0];
     const shape2 = currentSet[expId][1];
-    document.getElementById('letter-1').innerHTML = shape1;
-    document.getElementById('letter-2').innerHTML = shape2;
+    const element1 = document.getElementById('letter-1');
+    const element2 = document.getElementById('letter-1');
+    element1.innerHTML = shape1;
+    element1.classList.remove(fontClasses);
+    element1.classList.add(fontClasses[Math.floor(Math.random() * fontClasses.length)]);
+    element2.innerHTML = shape2;
+    element2.classList.remove(fontClasses);
+    element2.classList.add(fontClasses[Math.floor(Math.random() * fontClasses.length)]);
   }
 
   function updateScreenToPrev() {

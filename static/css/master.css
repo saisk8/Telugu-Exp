@@ -37,3 +37,23 @@ body {
 .red {
   color: red;
 }
+
+.font1 {
+  font-family: 'Hind Guntur', sans-serif;
+}
+
+.font2 {
+  font-family: 'Gurajada', serif;
+}
+
+.font3 {
+  font-family: 'NTR', sans-serif;
+}
+
+.font4 {
+  font-family: 'Peddana', serif;
+}
+
+.font5 {
+  font-family: 'Ravi Prakash', cursive;
+}
