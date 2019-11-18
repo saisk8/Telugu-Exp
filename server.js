@@ -71,13 +71,33 @@ app.post('/login-val', (request, response) => {
         client.close();
         return response.json({ status: true });
       }
-      const newDoc = { user, data: Array(276).fill(0) };
+      const newDoc = { user, data: Array(28).fill(0), set: Array(3).fill(-1) };
       db.collection('users').insertOne(newDoc, (err2, r) => {
         assert.equal(null, err2);
         assert.equal(1, r.insertedCount);
         client.close();
       });
       return response.json({ status: false });
+    });
+  });
+});
+
+// Route to GET progress of a user
+app.post('/get-exp-data', (request, response) => {
+  mongo.connect((err, client) => {
+    assert.equal(null, err);
+    console.log('Connected correctly to server');
+    const db = client.db(dbName);
+
+    const { user } = request.body;
+
+    db.collection('users').findOne({ user }, (err1, doc) => {
+      assert.equal(null, err1);
+      if (doc !== null) {
+        client.close();
+        return response.json(doc);
+      }
+      return response.json(null);
     });
   });
 });
