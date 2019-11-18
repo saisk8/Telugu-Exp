@@ -18,8 +18,9 @@ h3 {
 
 #letter-1,
 #letter-2 {
-  font-size: 8rem;
+  font-size: 40px;
 }
+
 .btn.active.focus,
 .btn.active:focus,
 .btn.focus,
