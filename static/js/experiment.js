@@ -1,33 +1,40 @@
 /* eslint-disable no-undef */
 /* eslint-disable no-console */
 function startExperiment() {
-  const expData = { user: window.localStorage.getItem('user'), data: null, set: null };
+  if (!window.localStorage.getItem('telugu-exp-user')) {
+    window.location.href = '/login';
+    return;
+  }
+  const expData = {
+    user: window.localStorage.getItem('telugu-exp-user')
+  };
+  window.localStorage.removeItem('telugu-exp-user');
   // Get data
   axios
     .get('/get-exp-data', {
-      user: expData.user,
+      user: expData.user
     })
-    .then((response) => {
+    .then(response => {
       console.log(response.data);
       if (response.data.user === expData.user) {
-        expData.data = response.data.data;
         expData.set = response.data.set;
+        expData.setNumber = response.data.setNumber;
       }
     })
-    .catch((error) => {
+    .catch(error => {
       console.log(error);
       throw error;
     });
-  const telugu = [
-    ['అ', 'న', 'వ', 'మ', 'య', 'ల', 'ర', 'ఒ'],
-    ['జ', 'ఠ', 'ఆ', 'ఉ', 'ఊ', 'ఎ', 'ఏ', 'ప'],
-    ['ఫ', 'ద', 'డ', 'బ', 'త', 'క', 'హ', 'ణ'],
-  ];
-  const fontClasses = ['font1', 'font2', 'font3', 'font4', 'font5'];
-  const currentSet = telugu[expData.set].flatMap((shape1, index) => {
-    telugu[expData.set].slice(index + 1).map((shape2) => [shape1, shape2]);
-  });
 
+  function getSetData() {
+    const data = window.localStorage.getItem(`telugu-${expData.user}-${expData.setNumber}`);
+    if (data) return data;
+    return Array(expData.set.length).fill(0);
+  }
+
+  const fontClasses = ['font1', 'font2', 'font3', 'font4', 'font5'];
+  const currentSet = expData.set;
+  expData.data = getSetData();
   const next = document.getElementById('next');
   const prev = document.getElementById('prev');
   const btns = document.querySelectorAll('p[name="score"]');
@@ -38,25 +45,19 @@ function startExperiment() {
   function completeExp() {
     axios
       .post('/complete', {
-        data: expData,
+        user: expData.user,
+        data: expData.data
       })
-      .then((response) => {
+      .then(response => {
         console.log(response.data);
       })
-      .catch((error) => {
+      .catch(error => {
         console.log(error);
       });
   }
 
-  function save(data) {
-    axios
-      .post('/save', { data })
-      .then((response) => {
-        console.log(response.data);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+  function save() {
+    window.localStorage.setItem(`telugu-${expData.user}-${expData.setNumber}`, expData.data);
   }
 
   function updateScore(e) {
