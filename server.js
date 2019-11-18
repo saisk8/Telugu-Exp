@@ -83,7 +83,7 @@ app.post('/login-val', (request, response) => {
 });
 
 // Route to GET progress of a user
-app.post('/get-exp-data', (request, response) => {
+app.get('/get-exp-data', (request, response) => {
   mongo.connect((err, client) => {
     assert.equal(null, err);
     console.log('Connected correctly to server');
