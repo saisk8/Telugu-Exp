@@ -46,7 +46,8 @@ function startExperiment() {
     axios
       .post('/complete', {
         user: expData.user,
-        data: expData.data
+        data: expData.data,
+        setNumber: expData.setNumber
       })
       .then(response => {
         console.log(response.data);

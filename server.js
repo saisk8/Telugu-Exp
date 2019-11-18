@@ -2,17 +2,64 @@
 // init project
 const express = require('express');
 const assert = require('assert');
+const shuffleSeed = require('shuffle-seed');
 const { MongoClient } = require('mongodb');
+const fs = require('fs-extra');
+
 // Connection url
 const url = 'mongodb://localhost:27017';
 // Database Name
 const dbName = 'telugu-test';
 
-const fs = require('fs');
-
+// Data
+const telugu = [
+  'అ',
+  'న',
+  'వ',
+  'మ',
+  'య',
+  'ల',
+  'ర',
+  'ఒ',
+  'జ',
+  'ఠ',
+  'ఆ',
+  'ఉ',
+  'ఊ',
+  'ఎ',
+  'ఏ',
+  'ప',
+  'ఫ',
+  'ద',
+  'డ',
+  'బ',
+  'త',
+  'క',
+  'హ',
+  'ణ'
+];
+const teluguPairs = shuffleSeed.shuffle(
+  telugu.flatMap((v, i) => telugu.slice(i + 1).map(w => [v, w])),
+  'Telugu'
+);
+let set = 0;
+const numberOfSets = teluguPairs.length / 23;
+// Start app
 const app = express();
 // Create a new MongoClient
 const mongo = new MongoClient(url, { useUnifiedTopology: true });
+
+function getSetNumber() {
+  const curr = set;
+  set += 1;
+  set %= numberOfSets;
+  return curr;
+}
+
+function getSet(setNo) {
+  const start = 23 * setNo;
+  return teluguPairs.slice(start, start + 23);
+}
 
 // Use connect method to connect to the Server
 // http://expressjs.com/en/starter/static-files.html
@@ -36,7 +83,7 @@ app.get('/', (request, response) => {
 });
 
 app.get('/exp', (request, response) => {
-  response.sendFile(`${__dirname}/views/experiment.html`);
+  response.sendFile(`${__dirname}/Views/experiment.html`);
 });
 
 app.get('/thanks', (request, response) => {
@@ -44,15 +91,16 @@ app.get('/thanks', (request, response) => {
 });
 
 app.get('/login', (request, response) => {
-  response.sendFile(`${__dirname}/views/login.html`);
+  response.sendFile(`${__dirname}/Views/login.html`);
 });
 
 app.post('/complete', (request, response) => {
-  fs.writeFile(`${request.body.user}.json`, request.body, (err) => {
-    if (err) {
-      console.log(err);
-    }
-  });
+  const { user } = request.body;
+  const { data } = request.body;
+  const fileName = request.body.setNumber;
+  const path = `Results/${user}`;
+  fs.emptyDirSync(path);
+  fs.writeFileSync(`${path}/${fileName}.json`, data);
   response.redirect('http://localhost:3000/thanks');
 });
 
@@ -71,7 +119,7 @@ app.post('/login-val', (request, response) => {
         client.close();
         return response.json({ status: true });
       }
-      const newDoc = { user, data: Array(28).fill(0), set: Array(3).fill(-1) };
+      const newDoc = { user, set: Array(numberOfSets).fill(0) };
       db.collection('users').insertOne(newDoc, (err2, r) => {
         assert.equal(null, err2);
         assert.equal(1, r.insertedCount);
@@ -95,31 +143,16 @@ app.get('/get-exp-data', (request, response) => {
       assert.equal(null, err1);
       if (doc !== null) {
         client.close();
-        return response.json(doc);
+        let setNumber = getSetNumber();
+        if (doc.set[setNumber].indexOf(-1) !== -1) setNumber = doc.set[setNumber].indexOf(-1);
+        else if (doc.set[setNumber] === 1) setNumber = doc.set.indexOf(0);
+        const newDoc = {};
+        newDoc.user = doc.user;
+        newDoc.setNumber = setNumber;
+        newDoc.set = getSet(setNumber);
+        return response.json(newDoc);
       }
       return response.json(null);
-    });
-  });
-});
-
-// Route to save progress of the user
-app.post('/save', (request, response) => {
-  mongo.connect((err, client) => {
-    assert.equal(null, err);
-    console.log('Connected correctly to server');
-    const db = client.db(dbName);
-
-    const { user } = request.body;
-    const { data } = request.body;
-
-    db.collection('users').findOneAndUpdate({ user }, { $set: { data } }, (err1, doc) => {
-      assert.equal(null, err1);
-      if (doc !== null) {
-        client.close();
-        return response.json({ status: 'done' });
-      }
-      client.close();
-      return response.json({ status: 'nope' });
     });
   });
 });
