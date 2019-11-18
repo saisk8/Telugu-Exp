@@ -1,21 +1,7 @@
 {
-  "extends": "airbnb",
-  "parser": "babel-eslint",
-  "env": {
-    "browser": true,
-    "node": true,
-    "es6": true,
-    "mocha": true
-  },
+  "extends": ["airbnb", "prettier"],
+  "plugins": ["prettier"],
   "rules": {
-    "valid-jsdoc": [
-      "error",
-      {
-        "requireReturn": true,
-        "requireReturnType": true,
-        "requireParamDescription": true,
-        "requireReturnDescription": true
-      }
-    ]
+    "prettier/prettier": ["error"]
   }
 }
