@@ -87,7 +87,7 @@ app.get('/exp', (request, response) => {
 });
 
 app.get('/thanks', (request, response) => {
-  response.send('Thank you!');
+  response.sendFile(`${__dirname}/Views/thankyou.html`);
 });
 
 app.get('/login', (request, response) => {
@@ -177,5 +177,5 @@ app.get('/get-exp-data', (request, response) => {
 
 // listen for requests :)
 app.listen(3000, () => {
-  console.log('listening on 3000');
+  console.log('Open at http://localhost:3000');
 });
