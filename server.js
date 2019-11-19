@@ -94,13 +94,38 @@ app.get('/login', (request, response) => {
   response.sendFile(`${__dirname}/Views/login.html`);
 });
 
+app.get('/register', (request, response) => {
+  response.sendFile(`${__dirname}/Views/register.html`);
+});
+
+app.post('/add-user', (request, response) => {
+  const { user } = request.body;
+  const path = `Results/${user}`;
+  fs.ensureDirSync(path);
+  const data = JSON.stringify(request.body);
+  fs.writeFileSync(`${path}/${user}-info.json`, data);
+  mongo.connect((err, client) => {
+    assert.equal(null, err);
+    console.log('Connected correctly to server');
+    const db = client.db(dbName);
+    const newDoc = { user, set: Array(numberOfSets).fill(0) };
+    db.collection('users').insertOne(newDoc, (err2, r) => {
+      assert.equal(null, err2);
+      assert.equal(1, r.insertedCount);
+      client.close();
+    });
+    return response.redirect('http://localhost:3000/login');
+  });
+});
+
 app.post('/complete', (request, response) => {
   const { user } = request.body;
-  const { data } = request.body;
+  let { data } = request.body;
   const fileName = request.body.setNumber;
   const path = `Results/${user}`;
-  fs.emptyDirSync(path);
-  fs.writeFileSync(`${path}/${fileName}.json`, data);
+  fs.ensureDirSync(path);
+  data = JSON.stringify(data);
+  fs.writeFileSync(`${path}/set-${fileName}.json`, data);
   response.redirect('http://localhost:3000/thanks');
 });
 
@@ -110,21 +135,14 @@ app.post('/login-val', (request, response) => {
     assert.equal(null, err);
     console.log('Connected correctly to server');
     const db = client.db(dbName);
-
     const { user } = request.body;
-
     db.collection('users').findOne({ user }, (err1, doc) => {
       assert.equal(null, err1);
       if (doc !== null) {
         client.close();
         return response.json({ status: true });
       }
-      const newDoc = { user, set: Array(numberOfSets).fill(0) };
-      db.collection('users').insertOne(newDoc, (err2, r) => {
-        assert.equal(null, err2);
-        assert.equal(1, r.insertedCount);
-        client.close();
-      });
+      client.close();
       return response.json({ status: false });
     });
   });
