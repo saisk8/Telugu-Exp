@@ -62,3 +62,5 @@ typings/
 
 # Mongo database
 data
+
+.vscode
