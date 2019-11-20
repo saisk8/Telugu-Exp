@@ -36,14 +36,17 @@ const telugu = [
   'త',
   'క',
   'హ',
-  'ణ'
+  'ణ',
+  'ఘ'
 ];
+let cycle = 0;
 const teluguPairs = shuffleSeed.shuffle(
   telugu.flatMap((v, i) => telugu.slice(i + 1).map(w => [v, w])),
-  'Telugu'
+  cycle
 );
+const numberOfSamples = 30;
 let set = 0;
-const numberOfSets = teluguPairs.length / 23;
+const numberOfSets = teluguPairs.length / numberOfSamples;
 // Start app
 const app = express();
 // Create a new MongoClient
@@ -52,13 +55,14 @@ const mongo = new MongoClient(url, { useUnifiedTopology: true });
 function getSetNumber() {
   const curr = set;
   set += 1;
+  if (set === numberOfSets) cycle += 1;
   set %= numberOfSets;
   return curr;
 }
 
 function getSet(setNo) {
-  const start = 23 * setNo;
-  return teluguPairs.slice(start, start + 23);
+  const start = numberOfSamples * setNo;
+  return teluguPairs.slice(start, start + numberOfSamples);
 }
 
 // Use connect method to connect to the Server
@@ -108,7 +112,7 @@ app.post('/add-user', (request, response) => {
     assert.equal(null, err);
     console.log('Connected correctly to server');
     const db = client.db(dbName);
-    const newDoc = { user, set: Array(numberOfSets).fill(0) };
+    const newDoc = { user };
     db.collection('users').insertOne(newDoc, (err2, r) => {
       assert.equal(null, err2);
       assert.equal(1, r.insertedCount);
@@ -119,13 +123,13 @@ app.post('/add-user', (request, response) => {
 });
 
 app.post('/complete', (request, response) => {
-  const { user } = request.body;
-  let { data } = request.body;
-  const fileName = request.body.setNumber;
+  const { user } = request.body.expData;
+  const { cycleNo } = request.body.expData;
+  const fileName = request.body.setNumber.expData;
   const path = `Results/${user}`;
   fs.ensureDirSync(path);
-  data = JSON.stringify(data);
-  fs.writeFileSync(`${path}/set-${fileName}.json`, data);
+  const data = JSON.stringify(request.body.expData);
+  fs.writeFileSync(`${path}/${cycleNo}/set-${fileName}.json`, data);
   response.redirect('http://localhost:3000/thanks');
 });
 
@@ -161,9 +165,7 @@ app.get('/get-exp-data', (request, response) => {
       assert.equal(null, err1);
       if (doc !== null) {
         client.close();
-        let setNumber = getSetNumber();
-        if (doc.set[setNumber].indexOf(-1) !== -1) setNumber = doc.set[setNumber].indexOf(-1);
-        else if (doc.set[setNumber] === 1) setNumber = doc.set.indexOf(0);
+        const setNumber = getSetNumber();
         const newDoc = {};
         newDoc.user = doc.user;
         newDoc.setNumber = setNumber;
