@@ -26,4 +26,6 @@ function validate() {
   );
 }
 
-window.onload = () => {};
+window.onload = () => {
+  validate();
+};
