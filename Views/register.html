@@ -47,7 +47,7 @@
         Basics
       </p>
       <hr />
-      <form class="needs-validation" novalidate>
+      <form class="needs-validation" novalidate id="form">
         <div class="form-row">
           <div class="col-md-4 mb-3">
             <label for="validationCustom01">First name</label>
@@ -59,8 +59,8 @@
               value=""
               required
             />
-            <div class="valid-feedback">
-              Looks good!
+            <div class="invalid-feedback">
+              Please enter your first name
             </div>
           </div>
           <div class="col-md-4 mb-3">
@@ -73,8 +73,8 @@
               value=""
               required
             />
-            <div class="valid-feedback">
-              Looks good!
+            <div class="invalid-feedback">
+              Please enter your last name
             </div>
           </div>
           <div class="col-md-4 mb-3">
@@ -98,7 +98,92 @@
           </div>
         </div>
         <p class="lead">
-          Languages
+          Telugu
+        </p>
+        <hr class="mb-4" />
+        <fieldset class="form-group">
+          <div class="row">
+            <legend class="col-form-label col-sm-4 pt-0">Can you read Telugu?</legend>
+            <div class="col-sm-8">
+              <div class="form-check form-check-inline">
+                <input
+                  class="form-check-input"
+                  type="radio"
+                  name="inlineRadioOptions"
+                  id="read-telugu-yes"
+                  value="Yes"
+                />
+                <label class="form-check-label" for="read-telugu-yes">Yes</label>
+              </div>
+              <div class="form-check form-check-inline">
+                <input
+                  class="form-check-input"
+                  type="radio"
+                  name="inlineRadioOptions"
+                  id="read-telugu-no"
+                  value="No"
+                />
+                <label class="form-check-label" for="read-telugu-no">No</label>
+              </div>
+            </div>
+          </div>
+        </fieldset>
+        <fieldset class="form-group">
+          <div class="row">
+            <legend class="col-form-label col-sm-4 pt-0">Can you write Telugu?</legend>
+            <div class="col-sm-8">
+              <div class="form-check form-check-inline">
+                <input
+                  class="form-check-input"
+                  type="radio"
+                  name="inlineRadioOptions"
+                  id="write-telugu-yes"
+                  value="Yes"
+                />
+                <label class="form-check-label" for="inlineRadio1">Yes</label>
+              </div>
+              <div class="form-check form-check-inline">
+                <input
+                  class="form-check-input"
+                  type="radio"
+                  name="inlineRadioOptions"
+                  id="write-telugu-no"
+                  value="No"
+                />
+                <label class="form-check-label" for="inlineRadio2">No</label>
+              </div>
+            </div>
+          </div>
+        </fieldset>
+        <fieldset class="form-group">
+          <div class="row">
+            <legend class="col-form-label col-sm-4 pt-0">Can you speak Telugu?</legend>
+            <div class="col-sm-8">
+              <div class="form-check form-check-inline">
+                <input
+                  class="form-check-input"
+                  type="radio"
+                  name="inlineRadioOptions"
+                  id="speak-telugu-yes"
+                  value="Yes"
+                />
+                <label class="form-check-label" for="speak-telugu-yes">Yes</label>
+              </div>
+              <div class="form-check form-check-inline">
+                <input
+                  class="form-check-input"
+                  type="radio"
+                  name="inlineRadioOptions"
+                  id="write-telugu-no"
+                  value="No"
+                />
+                <label class="form-check-label" for="write-telugu-no">No</label>
+              </div>
+            </div>
+          </div>
+        </fieldset>
+        <p class="lead">
+          Other languages
         </p>
         <hr class="mb-4" />
         <div class="form-inline">
@@ -106,28 +191,32 @@
           <input
             type="text"
             class="form-control mb-2 mr-sm-2 col-md-4"
-            id="inlineFormInputName2"
+            id="language"
             placeholder="Add a language you know"
+            required
           />
           <div class="form-check mb-2 mr-sm-2">
-            <input class="form-check-input" type="checkbox" id="inlineFormCheck" />
+            <input class="form-check-input" type="checkbox" id="Read" />
             <label class="form-check-label" for="inlineFormCheck">
               Read
             </label>
           </div>
           <div class="form-check mb-2 mr-sm-2">
-            <input class="form-check-input" type="checkbox" id="inlineFormCheck" />
+            <input class="form-check-input" type="checkbox" id="Speak" />
             <label class="form-check-label" for="inlineFormCheck">
               Speak
             </label>
           </div>
           <div class="form-check mb-2 mr-sm-2">
-            <input class="form-check-input" type="checkbox" id="inlineFormCheck" />
+            <input class="form-check-input" type="checkbox" id="Write" />
             <label class="form-check-label" for="inlineFormCheck">
               Write
             </label>
           </div>
-          <button type="button" class="btn btn-outline-success mb-2">Add</button>
+          <button type="button" class="btn btn-outline-success mb-2" id="add">Add</button>
+          <div class="invalid-feedback">
+            Please enter a language and the check the corresponding boxes
+          </div>
         </div>
         <ul id="languages"></ul>
         <hr class="mb-4" />
