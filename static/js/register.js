@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 /* eslint-disable no-undef */
 // Example starter JavaScript for disabling form submissions if there are invalid fields
 
@@ -51,8 +52,47 @@ window.onload = () => {
     if (form.checkValidity() === false) {
       event.preventDefault();
       event.stopPropagation();
+      return;
     }
     form.classList.add('was-validated');
+    const user = document.getElementById('user').value;
+    const firstName = document.getElementById('firstname').value;
+    const lastName = document.getElementById('lastname').value;
+    const name = `${firstName} ${lastName}`;
+    const read = document.querySelector('input[name="inlineRadioOptions-read"]:checked').value;
+    const write = document.querySelector('input[name="inlineRadioOptions-write"]:checked').value;
+    const speak = document.querySelector('input[name="inlineRadioOptions-speak"]:checked').value;
+    axios
+      .post('/add-user', {
+        name,
+        user,
+        read,
+        write,
+        speak,
+        languages
+      })
+      .then()
+      .catch(error => {
+        console.log(error);
+      });
+  }
+
+  function validateUser(event) {
+    const user = event.target.value;
+    axios
+      .post('/login-val', {
+        user
+      })
+      .then(response => {
+        if (response.data.status) {
+          document.getElementById('user').classList.add('is-invalid');
+        } else {
+          document.getElementById('user').classList.add('is-valid');
+        }
+      })
+      .catch(error => {
+        console.log(error);
+      });
   }
 
   function addEventListeners() {
@@ -60,6 +100,7 @@ window.onload = () => {
     document.getElementById('add').addEventListener('click', addLanguage, false);
     document.getElementById('remove').addEventListener('click', removeLanguage, false);
     document.getElementById('submit').addEventListener('click', validateForm, false);
+    document.getElementById('user').addEventListener('focusout', validateUser, false);
     Array.prototype.filter.call(forms, form => {
       form.addEventListener('submit', validateForm, false);
     });
