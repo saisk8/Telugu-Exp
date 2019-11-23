@@ -81,6 +81,13 @@ app.use((req, res, next) => {
   next();
 });
 
+let db = null;
+mongo.connect((err, client) => {
+  assert.equal(null, err);
+  console.log('Connected correctly to server');
+  db = client.db(dbName);
+});
+
 // http://expressjs.com/en/starter/basic-routing.html
 app.get('/', (request, response) => {
   response.redirect('http://localhost:3000/login');
@@ -108,18 +115,12 @@ app.post('/add-user', (request, response) => {
   fs.ensureDirSync(path);
   const data = JSON.stringify(request.body);
   fs.writeFileSync(`${path}/${user}-info.json`, data);
-  mongo.connect((err, client) => {
-    assert.equal(null, err);
-    console.log('Connected correctly to server');
-    const db = client.db(dbName);
-    const newDoc = { user };
-    db.collection('users').insertOne(newDoc, (err2, r) => {
-      assert.equal(null, err2);
-      assert.equal(1, r.insertedCount);
-      client.close();
-    });
-    return response.redirect('http://localhost:3000/login');
+  const newDoc = { user };
+  db.collection('users').insertOne(newDoc, (err2, r) => {
+    assert.equal(null, err2);
+    assert.equal(1, r.insertedCount);
   });
+  return response.redirect('http://localhost:3000/login');
 });
 
 app.post('/complete', (request, response) => {
@@ -135,45 +136,31 @@ app.post('/complete', (request, response) => {
 
 // Route to create a new user
 app.post('/login-val', (request, response) => {
-  mongo.connect((err, client) => {
-    assert.equal(null, err);
-    console.log('Connected correctly to server');
-    const db = client.db(dbName);
-    const { user } = request.body;
-    db.collection('users').findOne({ user }, (err1, doc) => {
-      assert.equal(null, err1);
-      if (doc !== null) {
-        client.close();
-        return response.json({ status: true });
-      }
-      client.close();
-      return response.json({ status: false });
-    });
+  const { user } = request.body;
+  db.collection('users').findOne({ user }, (err1, doc) => {
+    assert.equal(null, err1);
+    if (doc !== null) {
+      return response.json({ status: true });
+    }
+    return response.json({ status: false });
   });
 });
 
 // Route to GET progress of a user
 app.get('/get-exp-data', (request, response) => {
-  mongo.connect((err, client) => {
-    assert.equal(null, err);
-    console.log('Connected correctly to server');
-    const db = client.db(dbName);
+  const { user } = request.body;
 
-    const { user } = request.body;
-
-    db.collection('users').findOne({ user }, (err1, doc) => {
-      assert.equal(null, err1);
-      if (doc !== null) {
-        client.close();
-        const setNumber = getSetNumber();
-        const newDoc = {};
-        newDoc.user = doc.user;
-        newDoc.setNumber = setNumber;
-        newDoc.set = getSet(setNumber);
-        return response.json(newDoc);
-      }
-      return response.json(null);
-    });
+  db.collection('users').findOne({ user }, (err1, doc) => {
+    assert.equal(null, err1);
+    if (doc !== null) {
+      const setNumber = getSetNumber();
+      const newDoc = {};
+      newDoc.user = doc.user;
+      newDoc.setNumber = setNumber;
+      newDoc.set = getSet(setNumber);
+      return response.json(newDoc);
+    }
+    return response.json(null);
   });
 });
 
