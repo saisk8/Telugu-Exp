@@ -4,52 +4,50 @@
 window.onload = () => {
   const languages = [];
 
-  // function showList() {
-  //   let html = '';
-  //   for (let i = 0; i < languages.length; i += 1) {
-  //     html += `<li>${languages[i].name}: ${languages[i].attr}
-  //     <button type="button" class="btn btn-danger mb-2" id="${i}" onclick='${remove()};'>x</button>
-  //     `;
-  //   }
-  //   document.getElementById('languages').innerHTML = html;
-  // }
+  function checkboxValidate(boxes, checkedBoxes) {
+    if (checkedBoxes.length === 0) {
+      boxes.forEach(element => element.classList.add('is-invalid'));
+      return false;
+    }
+    return true;
+  }
 
   function removeLanguage() {
+    if (languages.length === 0) return;
     languages.pop();
     const parent = document.getElementById('languages');
     parent.removeChild(parent.lastChild);
   }
 
   function addLanguage() {
-    const checkboxes = document.querySelectorAll('input[type=checkbox]:checked');
+    const boxes = document.querySelectorAll(`input[type=checkbox]`);
+    const checkedBoxes = document.querySelectorAll('input[type=checkbox]:checked');
+    const name = document.getElementById('language');
+    if (!name.value) name.classList.add('is-invalid');
     let attr = '';
-    for (let i = 0; i < checkboxes.length; i += 1) {
-      if (checkboxes[i].value === 'on') attr += ` ${checkboxes[i].id}`;
+    if (checkboxValidate(boxes, checkedBoxes) === false) return;
+    for (let i = 0; i < checkedBoxes.length; i += 1) {
+      if (checkedBoxes[i].value === 'on') attr += ` ${checkedBoxes[i].id}`;
     }
     attr = attr.trim();
-    const name = document.getElementById('language').value;
     languages.push({
-      name,
-      attr
+      name: name.value,
+      attr: attr.trim()
     });
     const parent = document.getElementById('languages');
     const newElement = document.createElement('li');
-    newElement.innerHTML = `${name}: ${attr}`;
+    newElement.innerHTML = `${name.value}: ${attr.trim()}`;
     parent.appendChild(newElement);
     console.log(languages);
-  }
-
-  function checkboxValidate(name) {
-    const min = 1; // minumum number of boxes to be checked for this form-group
-    if ($(`input[name="${name}"]:checked`).length < min) {
-      $(`input[name="${name}"]`).prop('required', true);
-    } else {
-      $(`input[name="${name}"]`).prop('required', false);
-    }
+    boxes.forEach(element => {
+      element.classList.remove('is-invalid');
+      if (element.checked) element.click();
+    });
+    name.classList.remove('is-invalid');
+    name.value = '';
   }
 
   function validateForm(event) {
-    checkboxValidate('attr');
     if (form.checkValidity() === false) {
       event.preventDefault();
       event.stopPropagation();
@@ -61,6 +59,7 @@ window.onload = () => {
     const forms = document.getElementsByClassName('needs-validation');
     document.getElementById('add').addEventListener('click', addLanguage, false);
     document.getElementById('remove').addEventListener('click', removeLanguage, false);
+    document.getElementById('submit').addEventListener('click', validateForm, false);
     Array.prototype.filter.call(forms, form => {
       form.addEventListener('submit', validateForm, false);
     });
