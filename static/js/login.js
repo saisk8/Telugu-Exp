@@ -4,17 +4,17 @@ function login() {
   const user = document.getElementById('username').value;
   axios
     .post('/login-val', {
-      user,
+      user
     })
-    .then((response) => {
+    .then(response => {
       if (response.data.status) {
         window.localStorage.setItem('user', user);
-        window.location.href = '/exp';
+        window.location.href = '/instructions';
       } else {
         window.location.href = '/register';
       }
     })
-    .catch((error) => {
+    .catch(error => {
       console.log(error);
     });
 }
