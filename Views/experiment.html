@@ -2,10 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <meta
-      name="viewport"
-      content="width=device-width, initial-scale=1, shrink-to-fit=no"
-    />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
     <title>Telugu Exp</title>
     <link
       rel="stylesheet"
@@ -14,17 +11,33 @@
       crossorigin="anonymous"
     />
     <link
-      href="https://fonts.googleapis.com/css?family=Hind+Guntur|Roboto&display=swap"
-      <link
-      href="https://fonts.googleapis.com/css?family=Gurajada|Hind+Guntur|NTR|Peddana|Ravi+Prakash&display=swap"
+      href="https://fonts.googleapis.com/css?family=Chathura|Gurajada|Hind+Guntur|Lakki+Reddy|NTR|Open+Sans|Peddana|Suranna&display=swap"
       rel="stylesheet"
     />
-    rel="stylesheet" />
     <link rel="stylesheet" href="./css/experiment.css" />
+    <style>
+      .bd-placeholder-img {
+        font-size: 1.125rem;
+        text-anchor: middle;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+      }
+
+      @media (min-width: 768px) {
+        .bd-placeholder-img-lg {
+          font-size: 3.5rem;
+        }
+      }
+    </style>
   </head>
 
   <body class="container">
-    <h1 class="display-4 text-center">Telugu Exp</h1>
+    <div class="py-5 text-center">
+      <img class="d-block mx-auto mb-4" src="./images/logo.png" alt="" width="72" height="72" />
+      <h2>Experiment</h2>
+    </div>
     <div class="row">
       <div class="col-sm-6">
         <div class="card text-center" style="border:None;">
@@ -64,9 +77,6 @@
           5
         </p>
         <p class="card-text red" id="error"></p>
-        <p class="card-text btn btn-outline-primary hover" id="prev">
-          Previous
-        </p>
         <p class="card-text btn btn-outline-success hover" id="next">Next</p>
         <p class="card-text" id="left-with"></p>
       </div>
