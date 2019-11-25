@@ -29,7 +29,7 @@ function startExperiment() {
   function getSetData() {
     const data = window.localStorage.getItem(`telugu-${expData.user}-${expData.setNumber}`);
     if (data) return data;
-    return Array(expData.set.length).fill(0);
+    return [];
   }
 
   const fontClasses = ['font1', 'font2', 'font3', 'font4', 'font5'];
@@ -38,8 +38,8 @@ function startExperiment() {
   const next = document.getElementById('next');
   const prev = document.getElementById('prev');
   const btns = document.querySelectorAll('p[name="score"]');
-  let expId = expData.data.indexOf(0);
-  if (expId === -1) expId = -5; // To indicate that the exp is done
+  let expId = expData.data.length - 1;
+  if (expId === currentSet.length - 1) expId = -5; // To indicate that the exp is done
   const size = currentSet.length;
 
   function completeExp() {
@@ -59,9 +59,14 @@ function startExperiment() {
     window.localStorage.setItem(`telugu-${expData.user}-${expData.setNumber}`, expData.data);
   }
 
-  function updateScore(e) {
+  function updateScore(event) {
     document.getElementById('score').innerHTML = e.target.innerHTML;
-    expData.data[expId] = +e.target.innerHTML;
+    const newData = {
+      value: +event.target.innerHTML,
+      firstMouseMoveTime: firstmove,
+      reactionTime
+    };
+    expData.data.push(newData);
   }
 
   function updateScreen() {
