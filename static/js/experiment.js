@@ -1,6 +1,8 @@
 /* eslint-disable no-undef */
 /* eslint-disable no-console */
 function startExperiment() {
+  const firstmove = 0;
+  const firstMouseMoveTime = 0;
   if (!window.localStorage.getItem('telugu-exp-user')) {
     window.location.href = '/login';
     return;
@@ -69,18 +71,26 @@ function startExperiment() {
     expData.data.push(newData);
   }
 
+  function displayEditor() {
+    document.getElementById('letter-1').style.visibility = 'hidden';
+    document.getElementById('letter-2').style.visibility = 'hidden';
+  }
+
   function updateScreen() {
     document.getElementById('score').innerHTML = expData.data[expId];
     const shape1 = currentSet[expId][0];
     const shape2 = currentSet[expId][1];
     const element1 = document.getElementById('letter-1');
-    const element2 = document.getElementById('letter-1');
+    const element2 = document.getElementById('letter-2');
     element1.innerHTML = shape1;
     element1.classList.remove(fontClasses);
     element1.classList.add(fontClasses[Math.floor(Math.random() * fontClasses.length)]);
     element2.innerHTML = shape2;
     element2.classList.remove(fontClasses);
     element2.classList.add(fontClasses[Math.floor(Math.random() * fontClasses.length)]);
+    element1.style.visibility = 'visible';
+    element2.style.visibility = 'visible';
+    window.setTimeout(displayEditor, 2000);
   }
 
   function updateScreenToPrev() {
@@ -115,13 +125,14 @@ function startExperiment() {
     for (let i = 0; i < btns.length; i += 1) {
       btns[i].addEventListener('click', updateScore, false);
     }
+    document.querySelector('body').addEventListener('mousemove', recordTime, false);
   }
 
   // Intialise the experiment page
   addEventListner();
   document.getElementById('expNo').innerHTML = `Exp ${expId + 1} of ${size}`;
   if (expId === -5) completeExp();
-  updateScreen(updateScreenToNext);
+  updateScreen();
 }
 
 window.onload = startExperiment;
