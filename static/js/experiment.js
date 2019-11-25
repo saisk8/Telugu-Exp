@@ -34,11 +34,10 @@ function startExperiment() {
     return [];
   }
 
-  const fontClasses = ['font1', 'font2', 'font3', 'font4', 'font5'];
+  const fontClasses = ['font1', 'font2', 'font3', 'font4', 'font5', 'font6', 'font7'];
   const currentSet = expData.set;
   expData.data = getSetData();
   const next = document.getElementById('next');
-  const prev = document.getElementById('prev');
   const btns = document.querySelectorAll('p[name="score"]');
   let expId = expData.data.length - 1;
   if (expId === currentSet.length - 1) expId = -5; // To indicate that the exp is done
@@ -105,19 +104,6 @@ function startExperiment() {
     window.setTimeout(displayEditor, 2000);
   }
 
-  function updateScreenToPrev() {
-    expId -= 1;
-    if (expId === -1) expId = 0;
-    document.getElementById('expNo').innerHTML = `Exp ${expId + 1} of ${size}`;
-    if (expData.data[expId] === 0) {
-      document.getElementById('error').innerHTML = 'Please select a score';
-      return;
-    }
-    document.getElementById('error').innerHTML = '';
-    save(expData);
-    updateScreen();
-  }
-
   function updateScreenToNext() {
     if (expData.data[expId] === 0) {
       document.getElementById('error').innerHTML = 'Please select a score';
@@ -133,7 +119,6 @@ function startExperiment() {
 
   function addEventListner() {
     next.addEventListener('click', updateScreenToNext, false);
-    prev.addEventListener('click', updateScreenToPrev, false);
     for (let i = 0; i < btns.length; i += 1) {
       btns[i].addEventListener('click', updateScore, false);
     }
