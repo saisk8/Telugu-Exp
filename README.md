@@ -1,11 +1,17 @@
 # Telugu-Exp
 
-A website that has the experiments for the Telugu RDM construction
+A website that conducts the experiments for the Telugu RDM construction
 
 ## Usage
 
 Run the following command in the terminal for running it...
 
 ```bash
-node server.js
+mongod --port 27017 --dbpath=data
+```
+
+In another terminal
+
+```bash
+npm run dev
 ```
