@@ -15,3 +15,7 @@
   outline: 0 !important;
   box-shadow: none;
 }
+
+body {
+  font-family: 'Open Sans', sans-serif;
+}
