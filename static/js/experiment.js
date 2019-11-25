@@ -1,8 +1,8 @@
 /* eslint-disable no-undef */
 /* eslint-disable no-console */
 function startExperiment() {
-  const firstmove = 0;
-  const firstMouseMoveTime = 0;
+  let updateTime = 0;
+  let firstMouseMoveTime = 0;
   if (!window.localStorage.getItem('telugu-exp-user')) {
     window.location.href = '/login';
     return;
@@ -62,11 +62,12 @@ function startExperiment() {
   }
 
   function updateScore(event) {
+    const time = new Date();
     document.getElementById('score').innerHTML = e.target.innerHTML;
     const newData = {
       value: +event.target.innerHTML,
-      firstMouseMoveTime: firstmove,
-      reactionTime
+      firstMouseMoveTime,
+      reactionTime: time.getTime() - updateTime.getTime()
     };
     expData.data.push(newData);
   }
@@ -77,7 +78,8 @@ function startExperiment() {
   }
 
   function updateScreen() {
-    document.getElementById('score').innerHTML = expData.data[expId];
+    updateTime = new Date();
+    document.getElementById('score').innerHTML = expData.data[expId].value;
     const shape1 = currentSet[expId][0];
     const shape2 = currentSet[expId][1];
     const element1 = document.getElementById('letter-1');
@@ -90,6 +92,16 @@ function startExperiment() {
     element2.classList.add(fontClasses[Math.floor(Math.random() * fontClasses.length)]);
     element1.style.visibility = 'visible';
     element2.style.visibility = 'visible';
+    document.querySelector('body').addEventListener(
+      'mousemove',
+      () => {
+        firstMove = new Date();
+        firstMouseMoveTime = (firstMove.getTime() - updateTime.getTime()) / 1000;
+      },
+      {
+        once: true
+      }
+    );
     window.setTimeout(displayEditor, 2000);
   }
 
@@ -125,7 +137,6 @@ function startExperiment() {
     for (let i = 0; i < btns.length; i += 1) {
       btns[i].addEventListener('click', updateScore, false);
     }
-    document.querySelector('body').addEventListener('mousemove', recordTime, false);
   }
 
   // Intialise the experiment page
