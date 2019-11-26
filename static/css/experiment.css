@@ -7,7 +7,7 @@ h3 {
 }
 
 #score {
-  font-size: 5rem;
+  font-size: 2rem;
   font-style: normal;
   font-weight: 100;
 }
@@ -18,7 +18,7 @@ h3 {
 
 #letter-1,
 #letter-2 {
-  font-size: 40px;
+  font-size: 8rem;
 }
 
 .btn.active.focus,
