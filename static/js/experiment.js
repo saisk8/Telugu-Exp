@@ -49,7 +49,8 @@ function startExperiment() {
         expData
       })
       .then(response => {
-        console.log(response.data);
+        window.localStorage.removeItem(`telugu-${expData.user}-${expData.setNumber}`);
+        if (response.data.status) window.location.href = '/thanks';
       })
       .catch(error => {
         console.log(error);
