@@ -49,12 +49,15 @@ window.onload = () => {
   }
 
   function validateForm(event) {
+    let isValid = true;
     if (form.checkValidity() === false) {
       event.preventDefault();
       event.stopPropagation();
+      form.classList.add('was-validated');
+      isValid = true;
       return;
     }
-    form.classList.add('was-validated');
+    if (isValid) form.classList.add('was-validated');
     const user = document.getElementById('user').value;
     const firstName = document.getElementById('firstname').value;
     const lastName = document.getElementById('lastname').value;
@@ -71,7 +74,9 @@ window.onload = () => {
         speak,
         languages
       })
-      .then()
+      .then(response => {
+        if (response.data.status) window.location.href = '/login';
+      })
       .catch(error => {
         console.log(error);
       });
@@ -84,6 +89,7 @@ window.onload = () => {
         user
       })
       .then(response => {
+        document.getElementById('user').classList.remove('is-invalid', 'is-valid');
         if (response.data.status) {
           document.getElementById('user').classList.add('is-invalid');
         } else {
