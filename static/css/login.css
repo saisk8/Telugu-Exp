@@ -41,3 +41,13 @@ body {
   border-bottom-left-radius: 0;
   border-bottom-right-radius: 0;
 }
+
+.btn.active.focus,
+.btn.active:focus,
+.btn.focus,
+.btn:active.focus,
+.btn:active:focus,
+.btn:focus {
+  outline: 0 !important;
+  box-shadow: none;
+}
