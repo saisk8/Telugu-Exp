@@ -40,7 +40,7 @@ const telugu = [
   'ఘ'
 ];
 let cycle = 0;
-const teluguPairs = shuffleSeed.shuffle(
+let teluguPairs = shuffleSeed.shuffle(
   telugu.flatMap((v, i) => telugu.slice(i + 1).map(w => [v, w])),
   cycle
 );
@@ -55,7 +55,13 @@ const mongo = new MongoClient(url, { useUnifiedTopology: true });
 function getSetNumber() {
   const curr = set;
   set += 1;
-  if (set === numberOfSets) cycle += 1;
+  if (set === numberOfSets) {
+    cycle += 1;
+    teluguPairs = shuffleSeed.shuffle(
+      telugu.flatMap((v, i) => telugu.slice(i + 1).map(w => [v, w])),
+      cycle
+    );
+  }
   set %= numberOfSets;
   return curr;
 }
@@ -129,7 +135,7 @@ app.post('/add-user', (request, response) => {
 
 app.post('/complete', (request, response) => {
   const { user } = request.body.expData;
-  const { cycleNo } = request.body.expData;
+  const cycleNo = cycle;
   const fileName = request.body.setNumber.expData;
   const path = `Results/${user}`;
   fs.ensureDirSync(path);
@@ -152,20 +158,12 @@ app.post('/login-val', (request, response) => {
 
 // Route to GET progress of a user
 app.get('/get-exp-data', (request, response) => {
-  const { user } = request.body;
-
-  db.collection('users').findOne({ user }, (err1, doc) => {
-    assert.equal(null, err1);
-    if (doc !== null) {
-      const setNumber = getSetNumber();
-      const newDoc = {};
-      newDoc.user = doc.user;
-      newDoc.setNumber = setNumber;
-      newDoc.set = getSet(setNumber);
-      return response.json(newDoc);
-    }
-    return response.json(null);
-  });
+  const setNumber = getSetNumber();
+  const expData = {
+    setNumber,
+    set: getSet(setNumber)
+  };
+  return response.json(expData);
 });
 
 // listen for requests :)
