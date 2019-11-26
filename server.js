@@ -9,7 +9,7 @@ const fs = require('fs-extra');
 // Connection url
 const url = 'mongodb://localhost:27017';
 // Database Name
-const dbName = 'telugu-test';
+const dbName = 'telugu-alpha';
 
 // Data
 const telugu = [
@@ -90,7 +90,7 @@ mongo.connect((err, client) => {
 
 // http://expressjs.com/en/starter/basic-routing.html
 app.get('/', (request, response) => {
-  response.redirect('http://localhost:3000/login');
+  response.redirect('/login');
 });
 
 app.get('/exp', (request, response) => {
@@ -124,7 +124,7 @@ app.post('/add-user', (request, response) => {
     assert.equal(null, err2);
     assert.equal(1, r.insertedCount);
   });
-  return response.redirect('http://localhost:3000/login');
+  response.json({ status: true });
 });
 
 app.post('/complete', (request, response) => {
@@ -135,7 +135,7 @@ app.post('/complete', (request, response) => {
   fs.ensureDirSync(path);
   const data = JSON.stringify(request.body.expData);
   fs.writeFileSync(`${path}/${cycleNo}/set-${fileName}.json`, data);
-  response.redirect('http://localhost:3000/thanks');
+  response.redirect('/thanks');
 });
 
 // Route to create a new user
