@@ -38,14 +38,15 @@ window.onload = () => {
 
   function updateScore(event) {
     const time = new Date();
-    document.getElementById('score').innerHTML = event.target.innerHTML;
+    console.log(event.target.id);
+    document.getElementById('scorecard').innerHTML = event.target.id;
     const newData = {
-      value: +event.target.innerHTML,
+      value: event.target.value,
       firstMouseMoveTime,
-      reactionTime: time.getTime() - updateTime.getTime()
+      reactionTime: (time.getTime() - updateTime.getTime()) / 1000
     };
-    expData.data.push(newData);
-    document.getElementById('score').innerHTML = expData.data[expId].value;
+    expData.data[expId] = newData;
+    console.log(newData, expData.data);
   }
 
   function displayEditor() {
@@ -55,7 +56,7 @@ window.onload = () => {
 
   function updateScreen() {
     updateTime = new Date();
-    document.getElementById('score').innerHTML = 0;
+    document.getElementById('scorecard').innerHTML = 0;
     const shape1 = expData.set[expId][0];
     const shape2 = expData.set[expId][1];
     const element1 = document.getElementById('letter-1');
@@ -84,13 +85,13 @@ window.onload = () => {
   }
 
   function updateScreenToNext() {
-    if (expData.data.length - 1 === expId) {
+    if (expData.data.length === expId) {
       document.getElementById('error').innerHTML = 'Please select a score';
       return;
     }
     document.getElementById('error').innerHTML = '';
+    document.getElementById('expNo').innerHTML = `Pair ${expId + 1} of ${size}`;
     expId += 1;
-    document.getElementById('expNo').innerHTML = `Exp ${expId + 1} of ${size}`;
     if (expId === size) completeExp();
     save(expData);
     updateScreen();
@@ -103,19 +104,19 @@ window.onload = () => {
     }
   }
 
-  function getSetData() {
+  function getSetData(s) {
+    size = s;
     const data = window.localStorage.getItem(`telugu-${expData.user}-${expData.setNumber}`);
     if (data) return data;
-    return [];
+    return Array(size);
   }
 
   function nextSteps() {
     if (expData.data.length !== 0) {
       expId = expData.data.length - 1;
-      console.log(expId, expData.data);
+      console.log(expId);
     }
     if (expId === expData.set.length - 1) expId = -5; // To indicate that the exp is done
-    size = expData.set.length;
     addEventListner();
     document.getElementById('expNo').innerHTML = `Exp ${expId + 1} of ${size}`;
     if (expId === -5) completeExp();
@@ -128,7 +129,7 @@ window.onload = () => {
       if (response.data) {
         expData.set = response.data.set;
         expData.setNumber = response.data.setNumber;
-        expData.data = getSetData();
+        expData.data = getSetData(expData.set.length);
         nextSteps();
       }
     })
