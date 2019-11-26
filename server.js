@@ -135,7 +135,7 @@ app.post('/complete', (request, response) => {
   fs.ensureDirSync(path);
   const data = JSON.stringify(request.body.expData);
   fs.writeFileSync(`${path}/${cycleNo}/set-${fileName}.json`, data);
-  response.redirect('/thanks');
+  return response.json({ status: true });
 });
 
 // Route to create a new user
