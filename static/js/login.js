@@ -24,5 +24,10 @@ function login() {
 }
 
 window.onload = () => {
+  const loginButton = document.getElementById('login');
+  document.querySelector('body').addEventListener('keyup', event => {
+    event.preventDefault();
+    if (event.keyCode === 13) loginButton.click();
+  });
   document.getElementById('login').addEventListener('click', login, false);
 };
