@@ -1,8 +1,14 @@
 /* eslint-disable no-undef */
 /* eslint-disable no-console */
-function startExperiment() {
+window.onload = () => {
   let updateTime = 0;
   let firstMouseMoveTime = 0;
+  const fontClasses = ['font1', 'font2', 'font3', 'font4', 'font5', 'font6', 'font7'];
+  const next = document.getElementById('next');
+  const btns = document.querySelectorAll('p[name="score"]');
+  let expId = 0;
+  let size = 0;
+
   if (!window.localStorage.getItem('telugu-exp-user')) {
     window.location.href = '/login';
     return;
@@ -11,37 +17,6 @@ function startExperiment() {
     user: window.localStorage.getItem('telugu-exp-user')
   };
   window.localStorage.removeItem('telugu-exp-user');
-  // Get data
-  axios
-    .get('/get-exp-data', {
-      user: expData.user
-    })
-    .then(response => {
-      console.log(response.data);
-      if (response.data.user === expData.user) {
-        expData.set = response.data.set;
-        expData.setNumber = response.data.setNumber;
-      }
-    })
-    .catch(error => {
-      console.log(error);
-      throw error;
-    });
-
-  function getSetData() {
-    const data = window.localStorage.getItem(`telugu-${expData.user}-${expData.setNumber}`);
-    if (data) return data;
-    return [];
-  }
-
-  const fontClasses = ['font1', 'font2', 'font3', 'font4', 'font5', 'font6', 'font7'];
-  const currentSet = expData.set;
-  expData.data = getSetData();
-  const next = document.getElementById('next');
-  const btns = document.querySelectorAll('p[name="score"]');
-  let expId = expData.data.length - 1;
-  if (expId === currentSet.length - 1) expId = -5; // To indicate that the exp is done
-  const size = currentSet.length;
 
   function completeExp() {
     axios
@@ -70,6 +45,7 @@ function startExperiment() {
       reactionTime: time.getTime() - updateTime.getTime()
     };
     expData.data.push(newData);
+    document.getElementById('score').innerHTML = expData.data[expId].value;
   }
 
   function displayEditor() {
@@ -79,9 +55,9 @@ function startExperiment() {
 
   function updateScreen() {
     updateTime = new Date();
-    document.getElementById('score').innerHTML = expData.data[expId].value;
-    const shape1 = currentSet[expId][0];
-    const shape2 = currentSet[expId][1];
+    console.log(expData.set[0][0], expId);
+    const shape1 = expData.set[expId][0];
+    const shape2 = expData.set[expId][1];
     const element1 = document.getElementById('letter-1');
     const element2 = document.getElementById('letter-2');
     element1.innerHTML = shape1;
@@ -125,11 +101,37 @@ function startExperiment() {
     }
   }
 
-  // Intialise the experiment page
-  addEventListner();
-  document.getElementById('expNo').innerHTML = `Exp ${expId + 1} of ${size}`;
-  if (expId === -5) completeExp();
-  updateScreen();
-}
+  function getSetData() {
+    const data = window.localStorage.getItem(`telugu-${expData.user}-${expData.setNumber}`);
+    if (data) return data;
+    return [];
+  }
 
-window.onload = startExperiment;
+  function nextSteps() {
+    if (expData.data.length !== 0) {
+      expId = expData.data.length - 1;
+      console.log(expId, expData.data);
+    }
+    if (expId === expData.set.length - 1) expId = -5; // To indicate that the exp is done
+    size = expData.set.length;
+    addEventListner();
+    document.getElementById('expNo').innerHTML = `Exp ${expId + 1} of ${size}`;
+    if (expId === -5) completeExp();
+    updateScreen();
+  }
+
+  axios
+    .get('/get-exp-data')
+    .then(response => {
+      if (response.data) {
+        expData.set = response.data.set;
+        expData.setNumber = response.data.setNumber;
+        expData.data = getSetData();
+        nextSteps();
+      }
+    })
+    .catch(error => {
+      console.log(error);
+      throw error;
+    });
+};
