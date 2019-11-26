@@ -38,7 +38,7 @@ window.onload = () => {
 
   function updateScore(event) {
     const time = new Date();
-    document.getElementById('score').innerHTML = e.target.innerHTML;
+    document.getElementById('score').innerHTML = event.target.innerHTML;
     const newData = {
       value: +event.target.innerHTML,
       firstMouseMoveTime,
@@ -55,16 +55,18 @@ window.onload = () => {
 
   function updateScreen() {
     updateTime = new Date();
-    console.log(expData.set[0][0], expId);
+    document.getElementById('score').innerHTML = 0;
     const shape1 = expData.set[expId][0];
     const shape2 = expData.set[expId][1];
     const element1 = document.getElementById('letter-1');
     const element2 = document.getElementById('letter-2');
+    fontClasses.forEach(value => {
+      element1.classList.remove(value);
+      element2.classList.remove(value);
+    });
     element1.innerHTML = shape1;
-    element1.classList.remove(fontClasses);
     element1.classList.add(fontClasses[Math.floor(Math.random() * fontClasses.length)]);
     element2.innerHTML = shape2;
-    element2.classList.remove(fontClasses);
     element2.classList.add(fontClasses[Math.floor(Math.random() * fontClasses.length)]);
     element1.style.visibility = 'visible';
     element2.style.visibility = 'visible';
@@ -82,7 +84,7 @@ window.onload = () => {
   }
 
   function updateScreenToNext() {
-    if (expData.data[expId] === 0) {
+    if (expData.data.length - 1 === expId) {
       document.getElementById('error').innerHTML = 'Please select a score';
       return;
     }
