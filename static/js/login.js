@@ -15,7 +15,7 @@ window.onload = () => {
       .then(response => {
         console.log(response.data.status);
         if (response.data.status) {
-          window.localStorage.setItem('telugu-exp-user', user);
+          window.localStorage.setItem('telugu-exp-user', user.value);
           window.location.href = '/instructions';
         } else {
           window.location.href = '/register';
@@ -27,7 +27,7 @@ window.onload = () => {
   }
   const loginButton = document.getElementById('login');
   loginButton.addEventListener('click', login, false);
-  document.querySelector('form').addEventListener('keypress', event => {
+  document.querySelector('body').addEventListener('keypress', event => {
     if (event.keyCode === 13) loginButton.click();
   });
 };
