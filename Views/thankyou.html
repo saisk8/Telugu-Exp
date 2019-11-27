@@ -16,7 +16,7 @@
       crossorigin="anonymous"
     />
     <link href="https://fonts.googleapis.com/css?family=Open+Sans&display=swap" rel="stylesheet" />
-    <link rel="stylesheet" href="./css/master.css" />
+    <link rel="stylesheet" href="./css/login.css" />
 
     <style>
       .bd-placeholder-img {
@@ -38,9 +38,18 @@
     <link href="./css/login.css" rel="stylesheet" />
   </head>
   <body class="text-center">
-    <div class="form-signin">
+    <form class="form-signin needs-validation" novalidate>
       <img class="mb-4" src="./images/logo.png" alt="" width="72" height="72" />
       <h1>Thank you</h1>
-    </div>
+      <div class="mb-4">
+        <button class="btn btn-outline-success" type="button" id="continue">
+          Continue?
+        </button>
+        <button class="btn btn-outline-primary" type="button" id="logout">
+          Log out
+        </button>
+      </div>
+    </form>
+    <script src="/js/thanks.js"></script>
   </body>
 </html>
