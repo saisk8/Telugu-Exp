@@ -35,11 +35,7 @@ body {
 
 .form-signin input {
   margin-bottom: 10px;
-  border-top: none;
-  border-left: none;
-  border-right: none;
-  border-bottom-left-radius: 0;
-  border-bottom-right-radius: 0;
+  border-radius: 10px;
 }
 
 .btn.active.focus,
