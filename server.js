@@ -136,11 +136,11 @@ app.post('/add-user', (request, response) => {
 app.post('/complete', (request, response) => {
   const { user } = request.body.expData;
   const cycleNo = cycle;
-  const fileName = request.body.setNumber.expData;
-  const path = `Results/${user}`;
+  const fileName = request.body.expData.setNumber;
+  const path = `Results/${user}/${cycleNo}`;
   fs.ensureDirSync(path);
   const data = JSON.stringify(request.body.expData);
-  fs.writeFileSync(`${path}/${cycleNo}/set-${fileName}.json`, data);
+  fs.writeFileSync(`${path}/set-${fileName}.json`, data);
   return response.json({ status: true });
 });
 
