@@ -17,7 +17,6 @@ window.onload = () => {
   const expData = {
     user: window.localStorage.getItem('telugu-exp-user')
   };
-  window.localStorage.removeItem('telugu-exp-user');
 
   function completeExp() {
     axios
@@ -25,7 +24,6 @@ window.onload = () => {
         expData
       })
       .then(response => {
-        window.localStorage.removeItem(`telugu-${expData.user}-${expData.setNumber}`);
         if (response.data.status) window.location.href = '/thanks';
       })
       .catch(error => {
