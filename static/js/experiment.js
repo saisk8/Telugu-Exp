@@ -8,6 +8,7 @@ window.onload = () => {
   const btns = document.querySelectorAll('p[name="score"]');
   let expId = 0;
   let size = 0;
+  let clicked = false;
 
   if (!window.localStorage.getItem('telugu-exp-user')) {
     window.location.href = '/login';
@@ -32,21 +33,18 @@ window.onload = () => {
       });
   }
 
-  function save() {
-    window.localStorage.setItem(`telugu-${expData.user}-${expData.setNumber}`, expData.data);
-  }
-
   function updateScore(event) {
     const time = new Date();
     console.log(event.target.id);
     document.getElementById('scorecard').innerHTML = event.target.id;
     const newData = {
-      value: event.target.value,
+      value: event.target.id,
       firstMouseMoveTime,
       reactionTime: (time.getTime() - updateTime.getTime()) / 1000
     };
     expData.data[expId] = newData;
-    console.log(newData, expData.data);
+    clicked = true;
+    console.log(expData.data);
   }
 
   function displayEditor() {
@@ -85,15 +83,16 @@ window.onload = () => {
   }
 
   function updateScreenToNext() {
-    if (expData.data.length === expId) {
+    console.log(expData.data.length, expId);
+    if (!clicked) {
       document.getElementById('error').innerHTML = 'Please select a score';
       return;
     }
-    document.getElementById('error').innerHTML = '';
-    document.getElementById('expNo').innerHTML = `Pair ${expId + 1} of ${size}`;
+    clicked = false;
     expId += 1;
     if (expId === size) completeExp();
-    save(expData);
+    document.getElementById('error').innerHTML = '';
+    document.getElementById('expNo').innerHTML = `Pair ${expId + 1} of ${size}`;
     updateScreen();
   }
 
@@ -104,22 +103,10 @@ window.onload = () => {
     }
   }
 
-  function getSetData(s) {
-    size = s;
-    const data = window.localStorage.getItem(`telugu-${expData.user}-${expData.setNumber}`);
-    if (data) return data;
-    return Array(size);
-  }
-
   function nextSteps() {
-    if (expData.data.length !== 0) {
-      expId = expData.data.length - 1;
-      console.log(expId);
-    }
-    if (expId === expData.set.length - 1) expId = -5; // To indicate that the exp is done
+    size = expData.set.length;
     addEventListner();
-    document.getElementById('expNo').innerHTML = `Exp ${expId + 1} of ${size}`;
-    if (expId === -5) completeExp();
+    document.getElementById('expNo').innerHTML = `Pair ${expId + 1} of ${size}`;
     updateScreen();
   }
 
@@ -129,7 +116,7 @@ window.onload = () => {
       if (response.data) {
         expData.set = response.data.set;
         expData.setNumber = response.data.setNumber;
-        expData.data = getSetData(expData.set.length);
+        expData.data = Array(expData.set.length);
         nextSteps();
       }
     })

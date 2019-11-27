@@ -9,7 +9,7 @@ const fs = require('fs-extra');
 // Connection url
 const url = 'mongodb://localhost:27017';
 // Database Name
-const dbName = 'telugu-alpha';
+const dbName = 'telugu-alpha-1';
 
 // Data
 const telugu = [
