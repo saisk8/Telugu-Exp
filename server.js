@@ -53,7 +53,7 @@ const app = express();
 const mongo = new MongoClient(url, { useUnifiedTopology: true });
 
 function getSetNumber() {
-  const curr = set;
+  // const curr = set;
   set += 1;
   if (set === numberOfSets) {
     cycle += 1;
@@ -63,7 +63,7 @@ function getSetNumber() {
     );
   }
   set %= numberOfSets;
-  return curr;
+  return set;
 }
 
 function getSet(setNo) {

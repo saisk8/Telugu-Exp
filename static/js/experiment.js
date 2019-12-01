@@ -88,7 +88,10 @@ window.onload = () => {
     }
     clicked = false;
     expId += 1;
-    if (expId === size) completeExp();
+    if (expId === size) {
+      completeExp();
+      return;
+    }
     document.getElementById('error').innerHTML = '';
     document.getElementById('expNo').innerHTML = `Pair ${expId + 1} of ${size}`;
     updateScreen();
