@@ -1,6 +1,7 @@
 /* eslint-disable no-console */
 // init project
 const express = require('express');
+const cors = require('cors');
 
 // Start app
 const app = express();
@@ -14,13 +15,7 @@ app.use('/images', express.static('static/images'));
 
 // Parse JSON bodies (as sent by API clients)
 app.use(express.json());
-app.use((req, res, next) => {
-  res.append('Access-Control-Allow-Origin', ['*']);
-  res.append('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
-  res.append('Access-Control-Allow-Headers', 'Content-Type');
-  res.append('charset', 'utf-8');
-  next();
-});
+app.use(cors());
 
 // http://expressjs.com/en/starter/basic-routing.html
 app.get('/', (request, response) => {

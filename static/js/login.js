@@ -14,7 +14,6 @@ window.onload = () => {
         user: user.value
       })
       .then(response => {
-        console.log(response.data.status);
         if (response.data.status) {
           window.localStorage.setItem('telugu-exp-user', user.value);
           window.location.href = '/instructions';

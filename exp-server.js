@@ -5,7 +5,7 @@ const assert = require('assert');
 const shuffleSeed = require('shuffle-seed');
 const { MongoClient } = require('mongodb');
 const fs = require('fs-extra');
-
+const cors = require('cors');
 // Connection url
 const url = 'mongodb://localhost:27017';
 // Database Name
@@ -73,13 +73,7 @@ function getSet(setNo) {
 
 // Parse JSON bodies (as sent by API clients)
 app.use(express.json());
-app.use((req, res, next) => {
-  res.append('Access-Control-Allow-Origin', ['*']);
-  res.append('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
-  res.append('Access-Control-Allow-Headers', 'Content-Type');
-  res.append('charset', 'utf-8');
-  next();
-});
+app.use(cors());
 
 let db = null;
 mongo.connect((err, client) => {
@@ -99,7 +93,7 @@ app.post('/add-user', (request, response) => {
     assert.equal(null, err2);
     assert.equal(1, r.insertedCount);
   });
-  return response.redirect(`http://${request.headers.host}/login`);
+  return response.json({ status: true });
 });
 
 app.post('/complete', (request, response) => {
@@ -110,7 +104,7 @@ app.post('/complete', (request, response) => {
   fs.ensureDirSync(path);
   const data = JSON.stringify(request.body.expData);
   fs.writeFileSync(`${path}/set-${fileName}.json`, data);
-  return response.redirect(`http://${request.headers.host}/thanks`);
+  return response.json({ status: true });
 });
 
 // Route to create a new user
@@ -119,7 +113,7 @@ app.post('/login-val', (request, response) => {
   db.collection('users').findOne({ user }, (err1, doc) => {
     assert.equal(null, err1);
     if (doc !== null) {
-      return response.redirect(`http://${request.headers.host}/exp`);
+      return response.json({ status: true });
     }
     return response.json({ status: false });
   });
