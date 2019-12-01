@@ -1,6 +1,7 @@
 /* eslint-disable no-undef */
 /* eslint-disable no-console */
 window.onload = () => {
+  const apiHost = `${window.location.protocol}//${window.location.hostname}:3001`;
   let updateTime = 0;
   let firstMouseMoveTime = 0;
   const fontClasses = ['font1', 'font2', 'font3', 'font4', 'font5', 'font6', 'font7'];
@@ -20,7 +21,7 @@ window.onload = () => {
 
   function completeExp() {
     axios
-      .post('/complete', {
+      .post(`${apiHost}/complete`, {
         expData
       })
       .then(response => {
@@ -112,7 +113,7 @@ window.onload = () => {
   }
 
   axios
-    .get('/get-exp-data')
+    .get(`${apiHost}/get-exp-data`)
     .then(response => {
       if (response.data) {
         expData.set = response.data.set;

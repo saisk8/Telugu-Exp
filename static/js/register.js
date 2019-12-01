@@ -3,6 +3,7 @@
 // Example starter JavaScript for disabling form submissions if there are invalid fields
 
 window.onload = () => {
+  const apiHost = `${window.location.protocol}//${window.location.hostname}:3001`;
   const languages = [];
 
   function checkboxValidate(boxes, checkedBoxes) {
@@ -66,7 +67,7 @@ window.onload = () => {
     const write = document.querySelector('input[name="inlineRadioOptions-write"]:checked').value;
     const speak = document.querySelector('input[name="inlineRadioOptions-speak"]:checked').value;
     axios
-      .post('/add-user', {
+      .post(`${apiHost}/add-user`, {
         name,
         user,
         read,
@@ -85,7 +86,7 @@ window.onload = () => {
   function validateUser(event) {
     const user = event.target.value;
     axios
-      .post('/login-val', {
+      .post(`${apiHost}/login-val`, {
         user
       })
       .then(response => {

@@ -1,6 +1,7 @@
 /* eslint-disable no-console */
 /* eslint-disable no-undef */
 window.onload = () => {
+  const apiHost = `${window.location.protocol}//${window.location.hostname}:3001`;
   function login() {
     const user = document.getElementById('username');
     console.log(user.value);
@@ -9,7 +10,7 @@ window.onload = () => {
       return;
     }
     axios
-      .post('/login-val', {
+      .post(`${apiHost}/login-val`, {
         user: user.value
       })
       .then(response => {
