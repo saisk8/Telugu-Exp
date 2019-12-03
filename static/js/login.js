@@ -27,7 +27,7 @@ window.onload = () => {
   }
   const loginButton = document.getElementById('login');
   loginButton.addEventListener('click', login, false);
-  document.querySelector('body').addEventListener('keypress', event => {
+  document.querySelector('form').addEventListener('keypress', event => {
     if (event.keyCode === 13) loginButton.click();
   });
 };
