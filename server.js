@@ -32,6 +32,10 @@ app.get('/thanks', (request, response) => {
   response.sendFile(`${__dirname}/Views/thankyou.html`);
 });
 
+app.get('/done', (request, response) => {
+  response.sendFile(`${__dirname}/Views/done.html`);
+});
+
 app.get('/login', (request, response) => {
   response.sendFile(`${__dirname}/Views/login.html`);
 });
