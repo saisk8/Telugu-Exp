@@ -25,7 +25,11 @@ window.onload = () => {
         expData
       })
       .then(response => {
-        if (response.data.status) window.location.href = '/thanks';
+        if (response.data.status && expData.setNumber !== 9) {
+          window.location.href = '/thanks';
+        } else {
+          window.location.href = '/done';
+        }
       })
       .catch(error => {
         console.log(error);
