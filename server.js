@@ -5,9 +5,7 @@ const cors = require('cors');
 
 // Start app
 const app = express();
-// Create a new MongoClient
 
-// Use connect method to connect to the Server
 // http://expressjs.com/en/starter/static-files.html
 app.use('/css', express.static('static/css'));
 app.use('/js', express.static('static/js'));
