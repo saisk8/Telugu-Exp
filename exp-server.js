@@ -3,13 +3,12 @@
 const express = require('express');
 const assert = require('assert');
 const shuffleSeed = require('shuffle-seed');
-const { MongoClient } = require('mongodb');
 const fs = require('fs-extra');
 const cors = require('cors');
-// Connection url
-const url = 'mongodb://localhost:27017';
-// Database Name
-const dbName = 'telugu-alpha-1';
+// Type 3: Persistent datastore with automatic loading
+const Datastore = require('nedb');
+
+const db = new Datastore({ filename: 'data', autoload: true });
 
 // Data
 const telugu = [
@@ -39,78 +38,50 @@ const telugu = [
   'ణ',
   'ఘ'
 ];
-let cycle = 0;
-let teluguPairs = shuffleSeed.shuffle(
-  telugu.flatMap((v, i) => telugu.slice(i + 1).map(w => [v, w])),
-  cycle
-);
-const numberOfSamples = 30;
-let set = 0;
-const numberOfSets = teluguPairs.length / numberOfSamples;
+const teluguPairs = telugu.flatMap((v, i) => telugu.slice(i + 1).map(w => [v, w]));
+const numberOfSamplesPerExp = 30;
+const totalSets = teluguPairs.length / numberOfSamplesPerExp;
 // Start app
 const app = express();
-// Create a new MongoClient
-const mongo = new MongoClient(url, { useUnifiedTopology: true });
 
-function getSetNumber() {
-  // const curr = set;
-  set += 1;
-  if (set === numberOfSets) {
-    cycle += 1;
-    teluguPairs = shuffleSeed.shuffle(
-      telugu.flatMap((v, i) => telugu.slice(i + 1).map(w => [v, w])),
-      cycle
-    );
-  }
-  set %= numberOfSets;
-  return set;
-}
-
-function getSet(setNo) {
-  const start = numberOfSamples * setNo;
-  return teluguPairs.slice(start, start + numberOfSamples);
+function getSet(setNo, user) {
+  const start = numberOfSamplesPerExp * setNo;
+  return shuffleSeed.shuffle(teluguPairs, user).slice(start, start + numberOfSamplesPerExp);
 }
 
 // Parse JSON bodies (as sent by API clients)
 app.use(express.json());
 app.use(cors());
 
-let db = null;
-mongo.connect((err, client) => {
-  assert.equal(null, err);
-  console.log('Connected correctly to server');
-  db = client.db(dbName);
-});
-
+// Route to create a new user
 app.post('/add-user', (request, response) => {
   const { user } = request.body;
   const path = `Results/${user}`;
   fs.ensureDirSync(path);
   const data = JSON.stringify(request.body);
   fs.writeFileSync(`${path}/${user}-info.json`, data);
-  const newDoc = { user };
-  db.collection('users').insertOne(newDoc, (err2, r) => {
+  const newDoc = { user, numberOfCompletedSets: 0 };
+  db.insertOne(newDoc, (err2, r) => {
     assert.equal(null, err2);
-    assert.equal(1, r.insertedCount);
   });
   return response.json({ status: true });
 });
 
+// Route to address completion
 app.post('/complete', (request, response) => {
   const { user } = request.body.expData;
-  const cycleNo = cycle;
   const fileName = request.body.expData.setNumber;
-  const path = `Results/${user}/${cycleNo}`;
+  const path = `Results/${user}`;
   fs.ensureDirSync(path);
   const data = JSON.stringify(request.body.expData);
-  fs.writeFileSync(`${path}/set-${fileName}.json`, data);
+  fs.writeFileSync(`${path}/set-${fileName + 1}.json`, data);
   return response.json({ status: true });
 });
 
-// Route to create a new user
+// Route to check for a valid login
 app.post('/login-val', (request, response) => {
   const { user } = request.body;
-  db.collection('users').findOne({ user }, (err1, doc) => {
+  db.findOne({ user }, (err1, doc) => {
     assert.equal(null, err1);
     if (doc !== null) {
       return response.json({ status: true });
@@ -119,14 +90,19 @@ app.post('/login-val', (request, response) => {
   });
 });
 
-// Route to GET progress of a user
+// Route to GET new set of a user
 app.get('/get-exp-data', (request, response) => {
-  const setNumber = getSetNumber();
-  const expData = {
-    setNumber,
-    set: getSet(setNumber)
-  };
-  return response.json(expData);
+  const { user } = request.body;
+  db.findOne({ user }, (err1, doc) => {
+    const nextSet = doc.numberOfCompletedSets + 1;
+    assert.equal(null, err1);
+    if (nextSet > totalSets) return response.send('Done');
+    const expData = {
+      setNumber: nextSet,
+      set: getSet(nextSet, doc.user)
+    };
+    return response.json(expData);
+  });
 });
 
 // listen for requests :)
