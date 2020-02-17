@@ -24,8 +24,8 @@ window.onload = () => {
   function addLanguage() {
     const boxes = document.querySelectorAll(`input[type=checkbox]`);
     const checkedBoxes = document.querySelectorAll('input[type=checkbox]:checked');
-    const name = document.getElementById('language');
-    if (!name.value) name.classList.add('is-invalid');
+    const name = document.getElementById('language').value;
+    if (!name) name.classList.add('is-invalid');
     let attr = '';
     if (checkboxValidate(boxes, checkedBoxes) === false) return;
     for (let i = 0; i < checkedBoxes.length; i += 1) {
@@ -33,8 +33,8 @@ window.onload = () => {
     }
     attr = attr.trim();
     languages.push({
-      name: name.value,
-      attr: attr.trim()
+      name,
+      attr
     });
     const parent = document.getElementById('languages');
     const newElement = document.createElement('li');
