@@ -34,145 +34,143 @@
     <!-- Custom styles for this template -->
     <link href="./css/register.css" rel="stylesheet" />
   </head>
-  <body class="bg-light">
-    <div class="container">
-      <div class="py-5 text-center">
-        <img class="d-block mx-auto mb-4" src="./images/logo.png" alt="" width="72" height="72" />
-        <h2>Registration form</h2>
-        <p class="lead">
-          Please fill the following details.
-        </p>
+  <body class="bg-light container">
+    <div class="py-5 text-center">
+      <img class="d-block mx-auto mb-4" src="./images/logo.png" alt="" width="72" height="72" />
+      <h2>Registration form</h2>
+      <p class="lead">
+        Please fill the following details.
+      </p>
+    </div>
+    <p class="lead">
+      Basics
+    </p>
+    <hr />
+    <form class="needs-validation" novalidate id="form">
+      <div class="col-md-4 mb-3">
+        <label for="user">Registration Number</label>
+        <div class="input-group">
+          <div class="input-group-prepend">
+            <span class="input-group-text" id="inputGroupPrepend">@</span>
+          </div>
+          <input
+            type="text"
+            class="form-control"
+            id="user"
+            placeholder="Username"
+            aria-describedby="inputGroupPrepend"
+            required
+          />
+          <div class="invalid-feedback">
+            Please choose a different username.
+          </div>
+        </div>
       </div>
       <p class="lead">
-        Basics
+        Telugu
       </p>
-      <hr />
-      <form class="needs-validation" novalidate id="form">
-          <div class="col-md-4 mb-3">
-            <label for="user">Registration Number</label>
-            <div class="input-group">
-              <div class="input-group-prepend">
-                <span class="input-group-text" id="inputGroupPrepend">@</span>
-              </div>
+      <hr class="mb-4" />
+      <fieldset class="form-group">
+        <div class="row">
+          <legend class="col-form-label col-sm-4 pt-0">Can you read Telugu?</legend>
+          <div class="col-sm-8">
+            <div class="form-check form-check-inline">
               <input
-                type="text"
-                class="form-control"
-                id="user"
-                placeholder="Username"
-                aria-describedby="inputGroupPrepend"
+                class="form-check-input"
+                type="radio"
+                name="inlineRadioOptions-read"
+                id="read-telugu-yes"
+                value="Yes"
                 required
               />
-              <div class="invalid-feedback">
-                Please choose a different username.
-              </div>
+              <label class="form-check-label" for="read-telugu-yes">Yes</label>
+            </div>
+            <div class="form-check form-check-inline">
+              <input
+                class="form-check-input"
+                type="radio"
+                name="inlineRadioOptions-read"
+                id="read-telugu-no"
+                value="No"
+                required
+              />
+              <label class="form-check-label" for="read-telugu-no">No</label>
             </div>
           </div>
         </div>
-        <p class="lead">
-          Telugu
-        </p>
-        <hr class="mb-4" />
-        <fieldset class="form-group">
-          <div class="row">
-            <legend class="col-form-label col-sm-4 pt-0">Can you read Telugu?</legend>
-            <div class="col-sm-8">
-              <div class="form-check form-check-inline">
-                <input
-                  class="form-check-input"
-                  type="radio"
-                  name="inlineRadioOptions-read"
-                  id="read-telugu-yes"
-                  value="Yes"
-                  required
-                />
-                <label class="form-check-label" for="read-telugu-yes">Yes</label>
-              </div>
-              <div class="form-check form-check-inline">
-                <input
-                  class="form-check-input"
-                  type="radio"
-                  name="inlineRadioOptions-read"
-                  id="read-telugu-no"
-                  value="No"
-                  required
-                />
-                <label class="form-check-label" for="read-telugu-no">No</label>
-              </div>
+      </fieldset>
+      <fieldset class="form-group">
+        <div class="row">
+          <legend class="col-form-label col-sm-4 pt-0">Can you write Telugu?</legend>
+          <div class="col-sm-8">
+            <div class="form-check form-check-inline">
+              <input
+                class="form-check-input"
+                type="radio"
+                name="inlineRadioOptions-write"
+                id="write-telugu-yes"
+                value="Yes"
+                required
+              />
+              <label class="form-check-label" for="write-telugu-yes">Yes</label>
+            </div>
+            <div class="form-check form-check-inline">
+              <input
+                class="form-check-input"
+                type="radio"
+                name="inlineRadioOptions-write"
+                id="write-telugu-no"
+                value="No"
+                required
+              />
+              <label class="form-check-label" for="write-telugu-no">No</label>
             </div>
           </div>
-        </fieldset>
-        <fieldset class="form-group">
-          <div class="row">
-            <legend class="col-form-label col-sm-4 pt-0">Can you write Telugu?</legend>
-            <div class="col-sm-8">
-              <div class="form-check form-check-inline">
-                <input
-                  class="form-check-input"
-                  type="radio"
-                  name="inlineRadioOptions-write"
-                  id="write-telugu-yes"
-                  value="Yes"
-                  required
-                />
-                <label class="form-check-label" for="write-telugu-yes">Yes</label>
-              </div>
-              <div class="form-check form-check-inline">
-                <input
-                  class="form-check-input"
-                  type="radio"
-                  name="inlineRadioOptions-write"
-                  id="write-telugu-no"
-                  value="No"
-                  required
-                />
-                <label class="form-check-label" for="write-telugu-no">No</label>
-              </div>
+        </div>
+      </fieldset>
+      <fieldset class="form-group">
+        <div class="row">
+          <legend class="col-form-label col-sm-4 pt-0">Can you speak Telugu?</legend>
+          <div class="col-sm-8">
+            <div class="form-check form-check-inline">
+              <input
+                class="form-check-input"
+                type="radio"
+                name="inlineRadioOptions-speak"
+                id="speak-telugu-yes"
+                value="Yes"
+                required
+              />
+              <label class="form-check-label" for="speak-telugu-yes">Yes</label>
+            </div>
+            <div class="form-check form-check-inline">
+              <input
+                class="form-check-input"
+                type="radio"
+                name="inlineRadioOptions-speak"
+                id="speak-telugu-no"
+                value="No"
+                required
+              />
+              <label class="form-check-label" for="speak-telugu-no">No</label>
             </div>
           </div>
-        </fieldset>
-        <fieldset class="form-group">
-          <div class="row">
-            <legend class="col-form-label col-sm-4 pt-0">Can you speak Telugu?</legend>
-            <div class="col-sm-8">
-              <div class="form-check form-check-inline">
-                <input
-                  class="form-check-input"
-                  type="radio"
-                  name="inlineRadioOptions-speak"
-                  id="speak-telugu-yes"
-                  value="Yes"
-                  required
-                />
-                <label class="form-check-label" for="speak-telugu-yes">Yes</label>
-              </div>
-              <div class="form-check form-check-inline">
-                <input
-                  class="form-check-input"
-                  type="radio"
-                  name="inlineRadioOptions-speak"
-                  id="speak-telugu-no"
-                  value="No"
-                  required
-                />
-                <label class="form-check-label" for="speak-telugu-no">No</label>
-              </div>
-            </div>
-          </div>
-        </fieldset>
-      </form>
-      <p class="lead">
-        Other languages
-      </p>
-      <hr class="mb-4" />
-      <div class="form-inline">
-        <label class="sr-only" for="language">Language</label>
-        <br />
-        <select
-          type="text"
-          class="form-control mb-2 mr-sm-2 col-md-4"
-          id="language"
-          placeholder="Add a language you know"
-        >
+        </div>
+      </fieldset>
+    </form>
+    <p class="lead">
+      Other languages
+    </p>
+    <hr class="mb-4" />
+    <div class="form-inline">
+      <label class="sr-only" for="language">Language</label>
+      <br />
+      <select
+        type="text"
+        class="form-control mb-2 mr-sm-2 col-md-4"
+        id="language"
+        placeholder="Add a language you know"
+      >
         <option value="Afrikaans">Afrikaans</option>
         <option value="Albanian">Albanian</option>
         <option value="Arabic">Arabic</option>
@@ -248,39 +246,38 @@
         <option value="Welsh">Welsh</option>
         <option value="Xhosa">Xhosa</option>
       </select>
-        <div class="form-group">
-          <div class="form-check mb-2 mr-sm-2">
-            <input class="form-check-input" type="checkbox" name="attr" id="Read" />
-            <label class="form-check-label" for="inlineFormCheck">
-              Read
-            </label>
-          </div>
-          <div class="form-check mb-2 mr-sm-2">
-            <input class="form-check-input" type="checkbox" name="attr" id="Speak" />
-            <label class="form-check-label" for="inlineFormCheck">
-              Speak
-            </label>
-          </div>
-          <div class="form-check mb-2 mr-sm-2">
-            <input class="form-check-input" type="checkbox" name="attr" id="Write" />
-            <label class="form-check-label" for="inlineFormCheck">
-              Write
-            </label>
-          </div>
+      <div class="form-group">
+        <div class="form-check mb-2 mr-sm-2">
+          <input class="form-check-input" type="checkbox" name="attr" id="Read" />
+          <label class="form-check-label" for="inlineFormCheck">
+            Read
+          </label>
         </div>
-        <div class="invalid-feedback mb-2">
-          Please select a language and the check the corresponding boxes
+        <div class="form-check mb-2 mr-sm-2">
+          <input class="form-check-input" type="checkbox" name="attr" id="Speak" />
+          <label class="form-check-label" for="inlineFormCheck">
+            Speak
+          </label>
+        </div>
+        <div class="form-check mb-2 mr-sm-2">
+          <input class="form-check-input" type="checkbox" name="attr" id="Write" />
+          <label class="form-check-label" for="inlineFormCheck">
+            Write
+          </label>
         </div>
       </div>
-      <button type="button" class="btn btn-outline-success mb-2" id="add">Add</button>
-      <button type="button" class="btn btn-outline-danger mb-2" id="remove">Remove</button>
-      <p>Click the 'Add' button to add the language</p>
-      <ul id="languages"></ul>
-      <hr class="mb-4" />
-      <button type="button" id="submit" class="btn btn-outline-primary btn-block mb-2">
-        Submit
-      </button>
+      <div class="invalid-feedback mb-2">
+        Please select a language and the check the corresponding boxes
+      </div>
     </div>
+    <button type="button" class="btn btn-outline-success mb-2" id="add">Add</button>
+    <button type="button" class="btn btn-outline-danger mb-2" id="remove">Remove</button>
+    <p>Click the 'Add' button to add the language</p>
+    <ul id="languages"></ul>
+    <hr class="mb-4" />
+    <button type="button" id="submit" class="btn btn-outline-primary btn-block mb-2">
+      Submit
+    </button>
     <script
       src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
       integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"

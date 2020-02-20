@@ -24,8 +24,9 @@ window.onload = () => {
   function addLanguage() {
     const boxes = document.querySelectorAll(`input[type=checkbox]`);
     const checkedBoxes = document.querySelectorAll('input[type=checkbox]:checked');
-    const name = document.getElementById('language').value;
-    if (!name) name.classList.add('is-invalid');
+    const lang = document.getElementById('language');
+    const name = lang.options[lang.selectedIndex].value;
+    if (!lang) name.classList.add('is-invalid');
     let attr = '';
     if (checkboxValidate(boxes, checkedBoxes) === false) return;
     for (let i = 0; i < checkedBoxes.length; i += 1) {
@@ -38,15 +39,14 @@ window.onload = () => {
     });
     const parent = document.getElementById('languages');
     const newElement = document.createElement('li');
-    newElement.innerHTML = `${name.value}: ${attr.trim()}`;
+    newElement.innerHTML = `${name}: ${attr.trim()}`;
     parent.appendChild(newElement);
     console.log(languages);
     boxes.forEach(element => {
       element.classList.remove('is-invalid');
       if (element.checked) element.click();
     });
-    name.classList.remove('is-invalid');
-    name.value = '';
+    lang.classList.remove('is-invalid');
   }
 
   function validateForm(event) {
@@ -60,15 +60,11 @@ window.onload = () => {
     }
     if (isValid) form.classList.add('was-validated');
     const user = document.getElementById('user').value;
-    const firstName = document.getElementById('firstname').value;
-    const lastName = document.getElementById('lastname').value;
-    const name = `${firstName} ${lastName}`;
     const read = document.querySelector('input[name="inlineRadioOptions-read"]:checked').value;
     const write = document.querySelector('input[name="inlineRadioOptions-write"]:checked').value;
     const speak = document.querySelector('input[name="inlineRadioOptions-speak"]:checked').value;
     axios
       .post(`${apiHost}/add-user`, {
-        name,
         user,
         read,
         write,
