@@ -18,7 +18,7 @@ window.onload = () => {
   const expData = {
     user: window.localStorage.getItem('telugu-exp-user')
   };
-
+  console.log(expData);
   function completeExp() {
     axios
       .post(`${apiHost}/complete`, {
@@ -117,7 +117,7 @@ window.onload = () => {
   }
 
   axios
-    .get(`${apiHost}/get-exp-data`)
+    .get(`${apiHost}/get-exp-data/${expData.user}`)
     .then(response => {
       if (response.data) {
         expData.set = response.data.set;

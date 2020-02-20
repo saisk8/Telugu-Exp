@@ -8,7 +8,7 @@ const cors = require('cors');
 // Type 3: Persistent datastore with automatic loading
 const Datastore = require('nedb');
 
-const db = new Datastore({ filename: 'data', autoload: true });
+const db = new Datastore({ filename: 'dataStore', autoload: true });
 
 // Data
 const telugu = [
@@ -61,7 +61,7 @@ app.post('/add-user', (request, response) => {
   const data = JSON.stringify(request.body);
   fs.writeFileSync(`${path}/${user}-info.json`, data);
   const newDoc = { user, numberOfCompletedSets: 0 };
-  db.insertOne(newDoc, (err2, r) => {
+  db.insert(newDoc, err2 => {
     assert.equal(null, err2);
   });
   return response.json({ status: true });
@@ -74,7 +74,7 @@ app.post('/complete', (request, response) => {
   const path = `Results/${user}`;
   fs.ensureDirSync(path);
   const data = JSON.stringify(request.body.expData);
-  fs.writeFileSync(`${path}/set-${fileName + 1}.json`, data);
+  fs.writeFileSync(`${path}/set-${fileName}.json`, data);
   return response.json({ status: true });
 });
 
@@ -91,8 +91,8 @@ app.post('/login-val', (request, response) => {
 });
 
 // Route to GET new set of a user
-app.get('/get-exp-data', (request, response) => {
-  const { user } = request.body;
+app.get('/get-exp-data/:user', (request, response) => {
+  const { user } = request.params;
   db.findOne({ user }, (err1, doc) => {
     const nextSet = doc.numberOfCompletedSets + 1;
     assert.equal(null, err1);
