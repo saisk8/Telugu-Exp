@@ -8,7 +8,7 @@ const cors = require('cors');
 // Type 3: Persistent datastore with automatic loading
 const Datastore = require('nedb');
 
-const db = new Datastore({ filename: 'dataStore', autoload: true });
+const db = new Datastore({ filename: 'DataStore', autoload: true });
 
 // Data
 const telugu = [
