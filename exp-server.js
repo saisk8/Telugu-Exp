@@ -84,6 +84,7 @@ app.post('/complete', (request, response) => {
 // Route to check for a valid login
 app.post('/login-val', (request, response) => {
   const { user } = request.body;
+  if (!user) return response.json({ status: false });
   db.findOne({ user }, (err1, doc) => {
     assert.equal(null, err1);
     if (doc !== null) {
