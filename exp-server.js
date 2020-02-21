@@ -75,6 +75,9 @@ app.post('/complete', (request, response) => {
   fs.ensureDirSync(path);
   const data = JSON.stringify(request.body.expData);
   fs.writeFileSync(`${path}/set-${fileName}.json`, data);
+  db.update({ user }, { $inc: { numberOfCompletedSets: 1 } }, {}, err1 => {
+    assert.equal(err1, null);
+  });
   return response.json({ status: true });
 });
 

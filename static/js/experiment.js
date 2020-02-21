@@ -93,7 +93,7 @@ window.onload = () => {
     }
     clicked = false;
     expId += 1;
-    if (expId === size) {
+    if (expId >= size) {
       completeExp();
       return;
     }
