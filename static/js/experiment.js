@@ -113,6 +113,7 @@ window.onload = () => {
     size = expData.set.length;
     addEventListner();
     document.getElementById('expNo').innerHTML = `Pair ${expId + 1} of ${size}`;
+    document.getElementById('set').innerHTML = `Set ${expData.setNumber}`;
     updateScreen();
   }
 
