@@ -30,4 +30,7 @@ window.onload = () => {
   document.querySelector('form').addEventListener('keypress', event => {
     if (event.keyCode === 13) loginButton.click();
   });
+  // document.querySelector('body').addEventListener('keypress', event => {
+  //   if (event.keyCode === 13) loginButton.click();
+  // });
 };
