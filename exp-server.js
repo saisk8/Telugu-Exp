@@ -45,7 +45,7 @@ const totalSets = teluguPairs.length / numberOfSamplesPerExp;
 const app = express();
 
 function getSet(setNo, user) {
-  const start = numberOfSamplesPerExp * setNo;
+  const start = numberOfSamplesPerExp * (setNo - 1);
   return shuffleSeed.shuffle(teluguPairs, user).slice(start, start + numberOfSamplesPerExp);
 }
 
@@ -100,7 +100,7 @@ app.get('/get-exp-data/:user', (request, response) => {
   db.findOne({ user }, (err1, doc) => {
     const nextSet = doc.numberOfCompletedSets + 1;
     assert.equal(null, err1);
-    if (nextSet >= totalSets) return response.send('Done');
+    if (nextSet > totalSets) return response.send('Done');
     const expData = {
       setNumber: nextSet,
       set: getSet(nextSet, doc.user)
