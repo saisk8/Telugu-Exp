@@ -120,6 +120,7 @@ window.onload = () => {
   axios
     .get(`${apiHost}/get-exp-data/${expData.user}`)
     .then(response => {
+      console.log(response.data);
       if (response.data) {
         expData.set = response.data.set;
         expData.setNumber = response.data.setNumber;
