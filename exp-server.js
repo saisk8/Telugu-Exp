@@ -100,7 +100,7 @@ app.get('/get-exp-data/:user', (request, response) => {
   db.findOne({ user }, (err1, doc) => {
     const nextSet = doc.numberOfCompletedSets + 1;
     assert.equal(null, err1);
-    if (nextSet > totalSets) return response.send('Done');
+    if (nextSet >= totalSets) return response.send('Done');
     const expData = {
       setNumber: nextSet,
       set: getSet(nextSet, doc.user)

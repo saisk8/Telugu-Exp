@@ -25,7 +25,7 @@ window.onload = () => {
         expData
       })
       .then(response => {
-        if (response.data.status && expData.setNumber !== 9) {
+        if (response.data.status && expData.setNumber < 10) {
           window.location.href = '/thanks';
         } else {
           window.location.href = '/done';
