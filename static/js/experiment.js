@@ -4,7 +4,7 @@ window.onload = () => {
   const apiHost = `${window.location.protocol}//${window.location.hostname}:3001`;
   let updateTime = 0;
   let firstMouseMoveTime = 0;
-  const fontClasses = ['font1', 'font2', 'font3', 'font4', 'font5', 'font6', 'font7'];
+  const fontClasses = ['font1', 'font2'];
   const next = document.getElementById('next');
   const btns = document.querySelectorAll('p[name="score"]');
   let expId = 0;
