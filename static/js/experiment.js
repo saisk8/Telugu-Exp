@@ -39,7 +39,6 @@ window.onload = () => {
 
   function updateScore(event) {
     const time = new Date();
-    document.getElementById('scorecard').innerHTML = event.target.id;
     if (clicked !== null) {
       clicked.classList.remove('btn-info');
       clicked.classList.add('btn-outline-info');
@@ -66,7 +65,6 @@ window.onload = () => {
   function updateScreen() {
     window.clearTimeout(timeOutId);
     updateTime = new Date();
-    document.getElementById('scorecard').innerHTML = 'None';
     const shape1 = expData.set[expId][0];
     const shape2 = expData.set[expId][1];
     const element1 = document.getElementById('letter-1');
