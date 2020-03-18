@@ -9,7 +9,7 @@ window.onload = () => {
   const btns = document.querySelectorAll('p[name="score"]');
   let expId = 0;
   let size = 0;
-  let clicked = false;
+  let clicked = null;
   let timeOutId = '';
 
   if (!window.localStorage.getItem('telugu-exp-user')) {
@@ -39,16 +39,23 @@ window.onload = () => {
 
   function updateScore(event) {
     const time = new Date();
-    // console.log(event.target.id);
     document.getElementById('scorecard').innerHTML = event.target.id;
+    if (clicked !== null) {
+      clicked.classList.remove('btn-info');
+      clicked.classList.add('btn-outline-info');
+    }
+    event.target.classList.remove('btn-outline-info');
+    event.target.classList.add('btn-info');
     const newData = {
       value: event.target.id,
       firstMouseMoveTime,
       reactionTime: (time.getTime() - updateTime.getTime()) / 1000
     };
     expData.data[expId] = newData;
-    clicked = true;
-    console.log(expData.data);
+    clicked = event.target;
+    next.removeAttribute('disabled');
+    next.classList.add('hover');
+    next.classList.remove('hover-bad');
   }
 
   function displayEditor() {
@@ -88,12 +95,11 @@ window.onload = () => {
   }
 
   function updateScreenToNext() {
-    console.log(expData.data.length, expId);
-    if (!clicked) {
-      document.getElementById('error').innerHTML = 'Please select a score';
-      return;
-    }
-    clicked = false;
+    next.setAttribute('disabled', 'disabled');
+    next.classList.add('hover-bad');
+    next.classList.remove('hover');
+    clicked.classList.remove('btn-info');
+    clicked.classList.add('btn-outline-info');
     expId += 1;
     if (expId >= size) {
       completeExp();
