@@ -18,6 +18,7 @@ window.onload = () => {
           window.localStorage.setItem('telugu-exp-user', user.value);
           window.location.href = '/instructions';
         } else {
+          window.localStorage.setItem('telugu-exp-temp-user', user.value);
           window.location.href = '/register';
         }
       })
@@ -30,7 +31,4 @@ window.onload = () => {
   document.querySelector('form').addEventListener('keypress', event => {
     if (event.keyCode === 13) loginButton.click();
   });
-  // document.querySelector('body').addEventListener('keypress', event => {
-  //   if (event.keyCode === 13) loginButton.click();
-  // });
 };

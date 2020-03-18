@@ -5,6 +5,8 @@
 window.onload = () => {
   const apiHost = `${window.location.protocol}//${window.location.hostname}:3001`;
   const languages = [];
+  document.getElementById('user').value = window.localStorage.getItem('telugu-exp-temp-user');
+  window.localStorage.removeItem('telugu-exp-temp-user');
 
   function checkboxValidate(boxes, checkedBoxes) {
     if (checkedBoxes.length === 0) {
