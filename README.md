@@ -13,11 +13,5 @@ npm install
 Run the following command in the terminal for running it...
 
 ```bash
-node server.js
-```
-
-In another terminal
-
-```bash
-node exp-server.js
+npm start
 ```
