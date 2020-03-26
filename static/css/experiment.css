@@ -38,6 +38,31 @@ h4 {
   color: red;
 }
 
+@font-face {
+  font-family: 'Ramabhadra';
+  src: url('../fonts/Ramabhadra/Ramabhadra-Regular.ttf');
+}
+
+@font-face {
+  font-family: 'NTR';
+  src: url('../fonts/NTR/NTR-Regular.ttf');
+}
+
+@font-face {
+  font-family: 'Gurajada';
+  src: url('../fonts/Gurajada/Gurajada-Regular.ttf');
+}
+
+@font-face {
+  font-family: 'Lakki Reddy';
+  src: url('../fonts/Lakki_Reddy/LakkiReddy-Regular.ttf');
+}
+
+@font-face {
+  font-family: 'Mallanna';
+  src: url('../fonts/Mallanna/Mallanna-Regular.ttf');
+}
+
 .font1 {
   font-family: 'Ramabhadra', sans-serif;
 }
