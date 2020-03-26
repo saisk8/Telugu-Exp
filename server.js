@@ -10,6 +10,7 @@ const app = express();
 app.use('/css', express.static('static/css'));
 app.use('/js', express.static('static/js'));
 app.use('/images', express.static('static/images'));
+app.use('/fonts', express.static('static/fonts'));
 
 // Parse JSON bodies (as sent by API clients)
 app.use(express.json());
