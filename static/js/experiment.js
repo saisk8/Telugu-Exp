@@ -4,7 +4,7 @@ window.onload = () => {
   const apiHost = `${window.location.protocol}//${window.location.hostname}:3001`;
   let updateTime = 0;
   let firstMouseMoveTime = 0;
-  const fontClasses = ['font1', 'font2'];
+  const fontClasses = ['font1', 'font2', 'font3', 'font4', 'font5'];
   const next = document.getElementById('next');
   const btns = document.querySelectorAll('p[name="score"]');
   let expId = 0;
@@ -75,6 +75,7 @@ window.onload = () => {
     });
     element1.innerHTML = shape1;
     element1.classList.add(fontClasses[Math.floor(Math.random() * fontClasses.length)]);
+    console.log(element1.classList);
     element2.innerHTML = shape2;
     element2.classList.add(fontClasses[Math.floor(Math.random() * fontClasses.length)]);
     element1.style.visibility = 'visible';

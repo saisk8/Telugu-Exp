@@ -22,7 +22,7 @@ h4 {
 
 #letter-1,
 #letter-2 {
-  font-size: 8rem;
+  font-size: 100px;
 }
 
 .btn.active.focus,
@@ -34,19 +34,22 @@ h4 {
   outline: 0 !important;
   box-shadow: none;
 }
-
-body {
-  font-family: 'Open Sans', sans-serif;
-}
-
 .red {
   color: red;
 }
 
 .font1 {
-  font-family: 'Hind Guntur', sans-serif;
+  font-family: 'Ramabhadra', sans-serif;
 }
-
 .font2 {
+  font-family: 'Gurajada', serif;
+}
+.font3 {
+  font-family: 'Mallanna', sans-serif;
+}
+.font4 {
   font-family: 'NTR', sans-serif;
+}
+.font5 {
+  font-family: 'Lakki Reddy', cursive;
 }
