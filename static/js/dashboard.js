@@ -12,7 +12,6 @@ window.onload = () => {
 
   function fillData(doc) {
     document.getElementById('staticEmail').value = doc.user;
-    document.getElementById('unique').value = doc.short;
     document.getElementById('completion').value = doc.numberOfCompletedSets;
     document.getElementById('Remaining').value = 10 - doc.numberOfCompletedSets;
     const next = document.getElementById('next');
