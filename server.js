@@ -18,27 +18,15 @@ app.use(cors());
 
 // http://expressjs.com/en/starter/basic-routing.html
 app.get('/', (request, response) => {
-  response.redirect('/login');
+  response.sendFile(`${__dirname}/Views/landing.html`);
 });
 
 app.get('/exp', (request, response) => {
   response.sendFile(`${__dirname}/Views/experiment.html`);
 });
 
-app.get('/instructions', (request, response) => {
-  response.sendFile(`${__dirname}/Views/instructions.html`);
-});
-
 app.get('/dashboard', (request, response) => {
   response.sendFile(`${__dirname}/Views/dashboard.html`);
-});
-
-app.get('/thanks', (request, response) => {
-  response.sendFile(`${__dirname}/Views/thankyou.html`);
-});
-
-app.get('/done', (request, response) => {
-  response.sendFile(`${__dirname}/Views/done.html`);
 });
 
 app.get('/login', (request, response) => {
