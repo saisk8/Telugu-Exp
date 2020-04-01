@@ -18,13 +18,19 @@ git clone https://github.com/somanath08/Telugu-Exp.git
 cd Telugu-Exp
 ```
 
-Run the following to install all the packages.
+Run the following to install all the packages:
 
 ```bash
 npm install
 ```
 
-Then run the following command to start the application.
+Then run the following command to start the application:
+
+```bash
+npm start
+```
+
+To run the development server run the following command:
 
 ```bash
 npm start
