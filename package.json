@@ -1,6 +1,6 @@
 {
   "name": "telugu-exp",
-  "version": "2.1.0",
+  "version": "3.0.0",
   "description": "A web application that has the experiment for the Telugu RDM construction",
   "main": "server.js",
   "scripts": {
