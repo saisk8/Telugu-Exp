@@ -5,6 +5,7 @@ const assert = require('assert');
 const shuffleSeed = require('shuffle-seed');
 const fs = require('fs-extra');
 const cors = require('cors');
+const shortid = require('shortid');
 // Type 3: Persistent datastore with automatic loading
 const Datastore = require('nedb');
 
@@ -55,12 +56,13 @@ app.use(cors());
 
 // Route to create a new user
 app.post('/api/add-user', (request, response) => {
-  const { user } = request.body;
-  const path = `Results/${user}`;
+  const short = shortid.generate();
+  const path = `Results/${short}`;
   fs.ensureDirSync(path);
   const data = JSON.stringify(request.body);
-  fs.writeFileSync(`${path}/${user}-info.json`, data);
-  const newDoc = { user: data.user, numberOfCompletedSets: 0 };
+  data.short = short;
+  fs.writeFileSync(`${path}/${short}-info.json`, data);
+  const newDoc = { user: data.user, numberOfCompletedSets: 0, short };
   db.insert(newDoc, err2 => {
     assert.equal(null, err2);
   });
@@ -71,7 +73,12 @@ app.post('/api/add-user', (request, response) => {
 app.post('/api/complete', (request, response) => {
   const { user } = request.body.expData;
   const fileName = request.body.expData.setNumber;
-  const path = `Results/${user}`;
+  let short = '';
+  db.findOne({ user }, (err1, doc) => {
+    assert.equal(null, err1);
+    if (doc !== null) short = { doc };
+  });
+  const path = `Results/${short}`;
   fs.ensureDirSync(path);
   const data = JSON.stringify(request.body.expData);
   fs.writeFileSync(`${path}/set-${fileName}.json`, data);
