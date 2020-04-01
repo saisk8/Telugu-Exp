@@ -16,9 +16,11 @@ window.onload = () => {
     document.getElementById('completion').value = doc.numberOfCompletedSets;
     document.getElementById('Remaining').value = 10 - doc.numberOfCompletedSets;
     const next = document.getElementById('next');
-    if (+document.getElementById('completion').value === 10)
+    if (+document.getElementById('completion').value === 10) {
       next.setAttribute('disabled', 'disabled');
-    else
+      document.getElementById('done-text').innerHTML =
+        'You are done with all the sets, please come back later to see your results';
+    } else
       next.addEventListener('click', () => {
         window.location.href = '/exp';
       });
