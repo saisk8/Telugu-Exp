@@ -5,6 +5,7 @@
   "main": "server.js",
   "scripts": {
     "start": "concurrently \"node server.js\" \"node exp-server.js\"",
+    "dev": "concurrently \"nodemon server.js\" \"nodemon exp-server.js\"",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "engine": {
