@@ -54,7 +54,7 @@ app.use(express.json());
 app.use(cors());
 
 // Route to create a new user
-app.post('/add-user', (request, response) => {
+app.post('/api/add-user', (request, response) => {
   const { user } = request.body;
   const path = `Results/${user}`;
   fs.ensureDirSync(path);
@@ -68,7 +68,7 @@ app.post('/add-user', (request, response) => {
 });
 
 // Route to address completion
-app.post('/complete', (request, response) => {
+app.post('/api/complete', (request, response) => {
   const { user } = request.body.expData;
   const fileName = request.body.expData.setNumber;
   const path = `Results/${user}`;
@@ -82,7 +82,7 @@ app.post('/complete', (request, response) => {
 });
 
 // Route to check for a valid login
-app.post('/login-val', (request, response) => {
+app.post('/api/login-val', (request, response) => {
   const { user } = request.body;
   if (!user) return response.json({ status: false });
   db.findOne({ user }, (err1, doc) => {
@@ -95,7 +95,7 @@ app.post('/login-val', (request, response) => {
 });
 
 // Route to GET new set of a user
-app.get('/get-exp-data/:user', (request, response) => {
+app.get('/api/get-exp-data/:user', (request, response) => {
   const { user } = request.params;
   db.findOne({ user }, (err1, doc) => {
     const nextSet = doc.numberOfCompletedSets + 1;
