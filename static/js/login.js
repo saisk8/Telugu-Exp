@@ -23,7 +23,7 @@ window.onload = () => {
       .then(response => {
         if (response.data.status) {
           window.localStorage.setItem('telugu-exp-user', user.value);
-          window.location.href = '/instructions';
+          window.location.href = '/dashboard';
         } else {
           window.localStorage.setItem('telugu-exp-temp-user', user.value);
           window.location.href = '/register';

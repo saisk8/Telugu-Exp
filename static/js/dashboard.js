@@ -10,30 +10,28 @@ window.onload = () => {
     window.location.href = '/';
   }
 
-  document.getElementById('next').addEventListener('click', () => {
-    window.location.href = '/exp';
-  });
-
   function fillData(doc) {
     document.getElementById('staticEmail').value = doc.user;
     document.getElementById('unique').value = doc.short;
     document.getElementById('completion').value = doc.numberOfCompletedSets;
     document.getElementById('Remaining').value = 10 - doc.numberOfCompletedSets;
+    const next = document.getElementById('next');
     if (+document.getElementById('completion').value === 10)
-      document.getElementById('next').setAttribute('disabled', 'disabled');
-  }
-
-  function getData() {
-    axios
-      .get(`${apiHost}/dashboard/${user}`)
-      .then(response => {
-        if (response.data) {
-          fillData(response.data);
-        }
-      })
-      .catch(error => {
-        throw error;
+      next.setAttribute('disabled', 'disabled');
+    else
+      next.addEventListener('click', () => {
+        window.location.href = '/exp';
       });
   }
-  getData();
+
+  axios
+    .get(`${apiHost}/dashboard/${user}`)
+    .then(response => {
+      if (response.data) {
+        fillData(response.data);
+      }
+    })
+    .catch(error => {
+      throw error;
+    });
 };

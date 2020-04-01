@@ -1,5 +1,4 @@
 /* eslint-disable no-undef */
-/* eslint-disable no-console */
 window.onload = () => {
   let apiHost = '';
   if (window.location.hostname === 'localhost')
@@ -7,7 +6,6 @@ window.onload = () => {
   else apiHost = `${window.location.protocol}//${window.location.hostname}/api`;
 
   let updateTime = 0;
-  let firstMouseMoveTime = 0;
   const fontClasses = ['font1', 'font2', 'font3', 'font4', 'font5'];
   const next = document.getElementById('next');
   const btns = document.querySelectorAll('p[name="score"]');
@@ -17,27 +15,22 @@ window.onload = () => {
   let timeOutId = '';
 
   if (!window.localStorage.getItem('telugu-exp-user')) {
-    window.location.href = '/login';
+    window.location.href = '/';
     return;
   }
   const expData = {
     user: window.localStorage.getItem('telugu-exp-user')
   };
-  console.log(expData);
   function completeExp() {
     axios
       .post(`${apiHost}/complete`, {
         expData
       })
       .then(response => {
-        if (response.data.status && expData.setNumber < 10) {
-          window.location.href = '/thanks';
-        } else {
-          window.location.href = '/done';
-        }
+        if (response.data.status) window.location.href = '/dashboard';
       })
       .catch(error => {
-        console.log(error);
+        throw error;
       });
   }
 
@@ -51,7 +44,6 @@ window.onload = () => {
     event.target.classList.add('btn-info');
     const newData = {
       value: event.target.id,
-      firstMouseMoveTime,
       reactionTime: (time.getTime() - updateTime.getTime()) / 1000
     };
     expData.data[expId] = newData;
@@ -79,21 +71,10 @@ window.onload = () => {
     });
     element1.innerHTML = shape1;
     element1.classList.add(fontClasses[Math.floor(Math.random() * fontClasses.length)]);
-    console.log(element1.classList);
     element2.innerHTML = shape2;
     element2.classList.add(fontClasses[Math.floor(Math.random() * fontClasses.length)]);
     element1.style.visibility = 'visible';
     element2.style.visibility = 'visible';
-    document.querySelector('body').addEventListener(
-      'mousemove',
-      () => {
-        firstMove = new Date();
-        firstMouseMoveTime = (firstMove.getTime() - updateTime.getTime()) / 1000;
-      },
-      {
-        once: true
-      }
-    );
     timeOutId = window.setTimeout(displayEditor, 2000);
   }
 
@@ -131,7 +112,6 @@ window.onload = () => {
   axios
     .get(`${apiHost}/get-exp-data/${expData.user}`)
     .then(response => {
-      console.log(response.data);
       if (response.data) {
         expData.set = response.data.set;
         expData.setNumber = response.data.setNumber;
@@ -140,7 +120,6 @@ window.onload = () => {
       }
     })
     .catch(error => {
-      console.log(error);
       throw error;
     });
 };
