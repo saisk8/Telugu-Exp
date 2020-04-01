@@ -5,6 +5,7 @@ const assert = require('assert');
 const shuffleSeed = require('shuffle-seed');
 const fs = require('fs-extra');
 const cors = require('cors');
+const shortid = require('shortid');
 // Type 3: Persistent datastore with automatic loading
 const Datastore = require('nedb');
 
@@ -60,7 +61,7 @@ app.post('/api/add-user', (request, response) => {
   fs.ensureDirSync(path);
   const data = JSON.stringify(request.body);
   fs.writeFileSync(`${path}/${user}-info.json`, data);
-  const newDoc = { user, numberOfCompletedSets: 0 };
+  const newDoc = { user, numberOfCompletedSets: 0, short: shortid.generate() };
   db.insert(newDoc, err2 => {
     assert.equal(null, err2);
   });
@@ -84,28 +85,37 @@ app.post('/api/complete', (request, response) => {
 // Route to check for a valid login
 app.post('/api/login-val', (request, response) => {
   const { user } = request.body;
+  let status = false;
   if (!user) return response.json({ status: false });
   db.findOne({ user }, (err1, doc) => {
     assert.equal(null, err1);
-    if (doc !== null) {
-      return response.json({ status: true });
-    }
-    return response.json({ status: false });
+    if (doc !== null) status = true;
+    else status = false;
   });
+  return response.json({ status });
 });
 
 // Route to GET new set of a user
 app.get('/api/get-exp-data/:user', (request, response) => {
   const { user } = request.params;
   db.findOne({ user }, (err1, doc) => {
-    const nextSet = doc.numberOfCompletedSets + 1;
     assert.equal(null, err1);
+    const nextSet = doc.numberOfCompletedSets + 1;
     if (nextSet > totalSets) return response.send('Done');
     const expData = {
       setNumber: nextSet,
       set: getSet(nextSet, doc.user)
     };
     return response.json(expData);
+  });
+});
+
+// Route to GET new dashboard details
+app.get('/api/dashboard/:user', (request, response) => {
+  const { user } = request.params;
+  db.findOne({ user }, (err1, doc) => {
+    assert.equal(null, err1);
+    return response.json(doc);
   });
 });
 

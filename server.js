@@ -29,6 +29,10 @@ app.get('/instructions', (request, response) => {
   response.sendFile(`${__dirname}/Views/instructions.html`);
 });
 
+app.get('/dashboard', (request, response) => {
+  response.sendFile(`${__dirname}/Views/dashboard.html`);
+});
+
 app.get('/thanks', (request, response) => {
   response.sendFile(`${__dirname}/Views/thankyou.html`);
 });
