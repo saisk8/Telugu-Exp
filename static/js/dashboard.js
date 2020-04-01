@@ -10,6 +10,16 @@ window.onload = () => {
     window.location.href = '/';
   }
 
+  const exit = document.getElementById('exit');
+  exit.addEventListener(
+    'click',
+    () => {
+      window.localStorage.removeItem('telugu-exp-user');
+      window.location.href = '/';
+    },
+    false
+  );
+
   function fillData(doc) {
     document.getElementById('staticEmail').value = doc.user;
     document.getElementById('completion').value = doc.numberOfCompletedSets;
@@ -20,9 +30,13 @@ window.onload = () => {
       document.getElementById('done-text').innerHTML =
         'You are done with all the sets, please come back later to see your results';
     } else
-      next.addEventListener('click', () => {
-        window.location.href = '/exp';
-      });
+      next.addEventListener(
+        'click',
+        () => {
+          window.location.href = '/exp';
+        },
+        false
+      );
   }
 
   axios
