@@ -1,7 +1,11 @@
 /* eslint-disable no-undef */
 /* eslint-disable no-console */
 window.onload = () => {
-  const apiHost = `${window.location.protocol}//${window.location.hostname}:3001`;
+  let apiHost = '';
+  if (window.location.hostname === 'localhost')
+    apiHost = `${window.location.protocol}//${window.location.hostname}:3001/api`;
+  else apiHost = `${window.location.protocol}//${window.location.hostname}/api`;
+
   let updateTime = 0;
   let firstMouseMoveTime = 0;
   const fontClasses = ['font1', 'font2', 'font3', 'font4', 'font5'];
