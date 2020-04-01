@@ -1,12 +1,13 @@
-/* eslint-disable no-console */
 /* eslint-disable no-undef */
 // Example starter JavaScript for disabling form submissions if there are invalid fields
 
 window.onload = () => {
-  const apiHost = `${window.location.protocol}//${window.location.hostname}:3001`;
+  let apiHost = '';
+  if (window.location.hostname === 'localhost')
+    apiHost = `${window.location.protocol}//${window.location.hostname}:3001/api`;
+  else apiHost = `${window.location.protocol}//${window.location.hostname}/api`;
+
   const languages = [];
-  document.getElementById('user').value = window.localStorage.getItem('telugu-exp-temp-user');
-  window.localStorage.removeItem('telugu-exp-temp-user');
 
   function checkboxValidate(boxes, checkedBoxes) {
     if (checkedBoxes.length === 0) {
@@ -43,7 +44,6 @@ window.onload = () => {
     const newElement = document.createElement('li');
     newElement.innerHTML = `${name}: ${attr.trim()}`;
     parent.appendChild(newElement);
-    console.log(languages);
     boxes.forEach(element => {
       element.classList.remove('is-invalid');
       if (element.checked) element.click();
@@ -74,11 +74,19 @@ window.onload = () => {
         languages
       })
       .then(response => {
-        if (response.data.status) window.location.href = '/login';
+        if (response.data.status) {
+          window.localStorage.setItem('telugu-exp-user', user.value);
+          window.location.href = '/dashboard';
+        }
       })
       .catch(error => {
-        console.log(error);
+        throw error;
       });
+  }
+
+  function validateEmail(emailField) {
+    const matchString = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    return matchString.test(emailField);
   }
 
   function validateUser(event) {
@@ -89,14 +97,14 @@ window.onload = () => {
       })
       .then(response => {
         document.getElementById('user').classList.remove('is-invalid', 'is-valid');
-        if (response.data.status) {
+        if (!user || !validateEmail(user) || response.data.status) {
           document.getElementById('user').classList.add('is-invalid');
         } else {
           document.getElementById('user').classList.add('is-valid');
         }
       })
       .catch(error => {
-        console.log(error);
+        throw error;
       });
   }
 
@@ -105,11 +113,13 @@ window.onload = () => {
     document.getElementById('add').addEventListener('click', addLanguage, false);
     document.getElementById('remove').addEventListener('click', removeLanguage, false);
     document.getElementById('submit').addEventListener('click', validateForm, false);
-    document.getElementById('user').addEventListener('focusout', validateUser, false);
+    document.getElementById('user').addEventListener('input', validateUser, false);
     Array.prototype.filter.call(forms, form => {
       form.addEventListener('submit', validateForm, false);
     });
   }
 
   addEventListeners();
+  document.getElementById('user').value = window.localStorage.getItem('telugu-exp-temp-user');
+  window.localStorage.removeItem('telugu-exp-temp-user');
 };

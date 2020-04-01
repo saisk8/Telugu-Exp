@@ -15,22 +15,6 @@
     <title>Register</title>
     <!-- Bootstrap core CSS -->
     <link rel="stylesheet" href="./css/vendor/bootstrap.min.css" />
-    <style>
-      .bd-placeholder-img {
-        font-size: 1.125rem;
-        text-anchor: middle;
-        -webkit-user-select: none;
-        -moz-user-select: none;
-        -ms-user-select: none;
-        user-select: none;
-      }
-
-      @media (min-width: 768px) {
-        .bd-placeholder-img-lg {
-          font-size: 3.5rem;
-        }
-      }
-    </style>
     <!-- Custom styles for this template -->
     <link href="./css/register.css" rel="stylesheet" />
   </head>
@@ -42,13 +26,10 @@
         Please fill the following details.
       </p>
     </div>
-    <p class="lead">
-      Basics
-    </p>
     <hr />
     <form class="needs-validation" novalidate id="form">
       <div class="col-md-4 mb-3">
-        <label for="user">Registration Number</label>
+        <label for="user">Email</label>
         <div class="input-group">
           <div class="input-group-prepend">
             <span class="input-group-text" id="inputGroupPrepend">@</span>
@@ -57,18 +38,15 @@
             type="text"
             class="form-control"
             id="user"
-            placeholder="Registration number"
+            placeholder="name@example.com"
             aria-describedby="inputGroupPrepend"
             required
           />
           <div class="invalid-feedback">
-            User already registered.
+            Invalid email or email already registered.
           </div>
         </div>
       </div>
-      <p class="lead">
-        Telugu
-      </p>
       <hr class="mb-4" />
       <fieldset class="form-group">
         <div class="row">
@@ -158,16 +136,12 @@
         </div>
       </fieldset>
     </form>
-    <p class="lead">
-      Other languages
-    </p>
     <hr class="mb-4" />
-    <div class="form-inline">
-      <label class="sr-only" for="language">Language</label>
-      <br />
+    <label class="my-1 mr-2" for="language">Other languages you know</label>
+    <div>
       <select
         type="text"
-        class="form-control mb-2 mr-sm-2 col-md-4"
+        class="custom-select my-2 mr-sm-2 col-md-4"
         id="language"
         placeholder="Add a language you know"
       >
@@ -246,22 +220,22 @@
         <option value="Welsh">Welsh</option>
         <option value="Xhosa">Xhosa</option>
       </select>
-      <div class="form-group">
-        <div class="form-check mb-2 mr-sm-2">
-          <input class="form-check-input" type="checkbox" name="attr" id="Read" />
-          <label class="form-check-label" for="inlineFormCheck">
+      <div>
+        <div class="custom-control custom-checkbox my-1 mr-sm-2">
+          <input class="custom-control-input" type="checkbox" name="attr" id="Read" />
+          <label class="custom-control-label" for="Read">
             Read
           </label>
         </div>
-        <div class="form-check mb-2 mr-sm-2">
-          <input class="form-check-input" type="checkbox" name="attr" id="Speak" />
-          <label class="form-check-label" for="inlineFormCheck">
+        <div class="custom-control custom-checkbox my-1 mr-sm-2">
+          <input class="custom-control-input" type="checkbox" name="attr" id="Speak" />
+          <label class="custom-control-label" for="Speak">
             Speak
           </label>
         </div>
-        <div class="form-check mb-2 mr-sm-2">
-          <input class="form-check-input" type="checkbox" name="attr" id="Write" />
-          <label class="form-check-label" for="inlineFormCheck">
+        <div class="custom-control custom-checkbox my-1 mr-sm-2">
+          <input class="custom-control-input" type="checkbox" name="attr" id="Write" />
+          <label class="custom-control-label" for="Write">
             Write
           </label>
         </div>
@@ -275,8 +249,8 @@
     <p>Click the 'Add' button to add the language</p>
     <ul id="languages"></ul>
     <hr class="mb-4" />
-    <button type="button" id="submit" class="btn btn-outline-primary btn-block mb-2">
-      Submit
+    <button type="button" id="submit" class="btn btn-primary btn-block mb-2">
+      Register
     </button>
     <script src="./js/vendor/jquery-3.4.1.slim.min.js"></script>
     <script src="./js/vendor/bootstrap.min.js"></script>
