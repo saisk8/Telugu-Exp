@@ -1,11 +1,18 @@
-/* eslint-disable no-console */
 /* eslint-disable no-undef */
 window.onload = () => {
-  const apiHost = `${window.location.protocol}//${window.location.hostname}:3001`;
+  let apiHost = '';
+  if (window.location.hostname === 'localhost')
+    apiHost = `${window.location.protocol}//${window.location.hostname}:3001/api`;
+  else apiHost = `${window.location.protocol}//${window.location.hostname}/api`;
+
+  function validateEmail(emailField) {
+    const matchString = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    return matchString.test(emailField);
+  }
+
   function login() {
     const user = document.getElementById('username');
-    console.log(user.value);
-    if (!user.value) {
+    if (!validateEmail(user.value)) {
       user.classList.add('is-invalid');
       return;
     }
@@ -23,7 +30,7 @@ window.onload = () => {
         }
       })
       .catch(error => {
-        console.log(error);
+        throw error;
       });
   }
   const loginButton = document.getElementById('login');
