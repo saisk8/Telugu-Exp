@@ -75,7 +75,7 @@ window.onload = () => {
       })
       .then(response => {
         if (response.data.status) {
-          window.localStorage.setItem('telugu-exp-user', user.value);
+          window.localStorage.setItem('telugu-exp-user', user);
           window.location.href = '/dashboard';
         }
       })
