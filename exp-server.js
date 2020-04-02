@@ -56,13 +56,14 @@ app.use(cors());
 
 // Route to create a new user
 app.post('/api/add-user', (request, response) => {
+  const { user } = request.body;
   const short = shortid.generate();
   const path = `Results/${short}`;
   fs.ensureDirSync(path);
   const data = JSON.stringify(request.body);
   data.short = short;
   fs.writeFileSync(`${path}/${short}-info.json`, data);
-  const newDoc = { user: data.user, numberOfCompletedSets: 0, short };
+  const newDoc = { user, numberOfCompletedSets: 0, short };
   db.insert(newDoc, err2 => {
     assert.equal(null, err2);
   });
@@ -91,14 +92,10 @@ app.post('/api/complete', (request, response) => {
 // Route to check for a valid login
 app.post('/api/login-val', (request, response) => {
   const { user } = request.body;
-  let status = false;
-  if (!user) return response.json({ status: false });
   db.findOne({ user }, (err1, doc) => {
     assert.equal(null, err1);
-    if (doc !== null) status = true;
-    else status = false;
+    return response.json({ status: doc !== null });
   });
-  return response.json({ status });
 });
 
 // Route to GET new set of a user
