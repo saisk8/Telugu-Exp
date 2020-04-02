@@ -77,16 +77,17 @@ app.post('/api/complete', (request, response) => {
   let short = '';
   db.findOne({ user }, (err1, doc) => {
     assert.equal(null, err1);
-    if (doc !== null) short = { doc };
+    if (doc !== null) short = doc.short;
+    console.log(short);
+    const path = `Results/${short}`;
+    fs.ensureDirSync(path);
+    const data = JSON.stringify(request.body.expData);
+    fs.writeFileSync(`${path}/set-${fileName}.json`, data);
+    db.update({ user }, { $inc: { numberOfCompletedSets: 1 } }, {}, err2 => {
+      assert.equal(err2, null);
+    });
+    return response.json({ status: true });
   });
-  const path = `Results/${short}`;
-  fs.ensureDirSync(path);
-  const data = JSON.stringify(request.body.expData);
-  fs.writeFileSync(`${path}/set-${fileName}.json`, data);
-  db.update({ user }, { $inc: { numberOfCompletedSets: 1 } }, {}, err1 => {
-    assert.equal(err1, null);
-  });
-  return response.json({ status: true });
 });
 
 // Route to check for a valid login
