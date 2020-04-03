@@ -4,6 +4,7 @@ window.onload = () => {
   if (window.location.hostname === 'localhost')
     apiHost = `${window.location.protocol}//${window.location.hostname}:3001/api`;
   else apiHost = `${window.location.protocol}//${window.location.hostname}/api`;
+  if (window.localStorage.getItem('telugu-exp-user')) window.location.href = '/dashboard';
 
   function validateEmail(emailField) {
     const matchString = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
